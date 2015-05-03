@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ca_background_major">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/ca_listing_image_height"
+            android:id="@+id/imageView"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ca_content_padding" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="6dp" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="@dimen/ca_content_padding" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="The Alibi"
+                    android:id="@+id/textView10"
+                    android:textColor="@color/ca_detail_title"
+                    android:layout_marginRight="6dp"
+                    android:gravity="center_vertical" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="center_vertical" >
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|right"
+                        android:layout_weight="0"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/ca_background_minor"
+                        android:elevation="2dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Ksh. 65,000"
+                            android:id="@+id/textView11"
+                            android:textColor="@color/ca_detail_sub_title"
+                            android:layout_alignParentRight="false"
+                            android:layout_toLeftOf="@+id/textView16"
+                            android:layout_centerVertical="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:text="/mo"
+                            android:id="@+id/textView16"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignBottom="@+id/textView11"
+                            android:textColor="@color/ca_title_white_faded"
+                            android:layout_gravity="bottom" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/imageView8"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_communication_location_on_dark"
+                    android:layout_below="@+id/textView18"
+                    android:layout_marginRight="6dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="127 Street Kenyatta Avenue"
+                    android:id="@+id/textView17"
+                    android:textColor="@color/ca_title_white_faded"
+                    android:layout_below="@+id/textView18"
+                    android:layout_toRightOf="@+id/imageView8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" >
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/imageView10"
+                    android:layout_alignParentLeft="true"
+                    android:src="@drawable/ic_communication_phone"
+                    android:layout_marginRight="6dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="072568552"
+                    android:id="@+id/textView18"
+                    android:textColor="@color/ca_title_white_faded"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageView10" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@drawable/ca_gradient"></LinearLayout>
+</LinearLayout>
