@@ -6,6 +6,6 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="singularity.com.cassini.ui.ListingDetailFragment"
+        android:name="com.singularity.archdesignhub.ui.ListingDetailFragment"
         android:id="@+id/fragment2" />
 </FrameLayout>

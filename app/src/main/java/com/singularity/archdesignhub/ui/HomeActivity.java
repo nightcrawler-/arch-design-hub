@@ -48,15 +48,6 @@ public class HomeActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        fbStuff();
-    }
-
-    private void fbStuff() {
-        Profile me = Profile.getCurrentProfile();
-        if (me != null)
-            Log.i(TAG, "logged - " + me.getFirstName());
-        else
-            Log.i(TAG, "me is null, danng it!");
     }
 
     @Override
@@ -126,7 +117,7 @@ public class HomeActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(this, LoginSelectionActivity.class));
+            startActivity(new Intent(this, ListingDetailActivity.class));
             return true;
         }
 

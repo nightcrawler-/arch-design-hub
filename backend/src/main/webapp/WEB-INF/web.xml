@@ -13,19 +13,46 @@
         <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
         <init-param>
             <param-name>services</param-name>
-            <param-value>
-                com.singularity.archdesignhub.backend.MessagingEndpoint,
+            <param-value>com.singularity.archdesignhub.backend.MessagingEndpoint,
                 com.singularity.archdesignhub.backend.RegistrationEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.AgentEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.CommentEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.PropertyEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.UserEndpoint,
-                com.singularity.archdesignhub.backend.endpoints.WaitingUserEndpoint</param-value>
+                com.singularity.archdesignhub.backend.endpoints.WaitingUserEndpoint,
+                com.singularity.archdesignhub.backend.endpoints.ImageEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>SystemServiceServlet</servlet-name>
         <url-pattern>/_ah/spi/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getUploadUrl</servlet-name>
+        <servlet-class>com.singularity.archdesignhub.backend.servlets.GetUploadUrl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getUploadUrl</servlet-name>
+        <url-pattern>/getUploadUrl</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>uploadBlob</servlet-name>
+        <servlet-class>com.singularity.archdesignhub.backend.servlets.UploadBlob</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>uploadBlob</servlet-name>
+        <url-pattern>/uploadBlob</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>serveBlob</servlet-name>
+        <servlet-class>com.singularity.archdesignhub.backend.servlets.ServeBlob</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>serveBlob</servlet-name>
+        <url-pattern>/serveBlob</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

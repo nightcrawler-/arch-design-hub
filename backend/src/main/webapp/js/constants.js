@@ -1,5 +1,5 @@
-var API_URL = 'https://cassini-ke.appspot.com/_ah/api';
-var CLIENT_ID = '820175235736-3ph00blupd0oh8q0lhqu6g0dcohlo27v.apps.googleusercontent.com';
+var API_URL = 'https://archdesign-hub.appspot.com/_ah/api';
+var CLIENT_ID = '460866140621-arq63orifsp3i17mb4u5mnmj284meqf5.apps.googleusercontent.com';
 var SCOPES = 'https://www.googleapis.com/auth/userinfo.email';
 
 

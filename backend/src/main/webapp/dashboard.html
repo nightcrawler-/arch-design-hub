@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+    <title>Archdesign Hub</title>
+
+    <!-- BEGIN META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="your,keywords">
+    <meta name="description" content="Short explanation about this website">
+    <link rel="shortcut icon" href="assets/ico/favicon.png">
+
+    <!-- END META -->
+
+    <!-- BEGIN STYLESHEETS -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300italic,400italic,300,400,500,700,900' rel='stylesheet' type='text/css' />
+
+    <link type="text/css" rel="stylesheet" href="/css/theme/bootstrap.css" />
+
+    <link type="text/css" rel="stylesheet" href="/css/theme/materialadmin.css" />
+
+    <link type="text/css" rel="stylesheet" href="/css/theme/font-awesome.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="/css/theme/material-design-iconic-font.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="/css/theme/rickshaw.css" />
+
+    <link type="text/css" rel="stylesheet" href="/css/theme/morris.core.css" />
+    <!--<link type="text/css" rel="stylesheet" href="/css/font-awesome.css" />-->
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="css/cassini.css">
+    <!-- END STYLESHEETS -->
+
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+	<script type="text/javascript" src="http://www.codecovers.eu/assets/js/modules/materialadmin/libs/utils/html5shiv.js?1422823601"></script>
+	<script type="text/javascript" src="http://www.codecovers.eu/assets/js/modules/materialadmin/libs/utils/respond.min.js?1422823601"></script>
+    <![endif]-->
+</head>
+
+
+<body ng-controller="MainController" ng-init="nav = 'home'" class="menubar-hoverable header-fixed ">
+    <!-- BEGIN HEADER-->
+    <header id="header">
+
+        <div class="headerbar">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="headerbar-left">
+                <ul class="header-nav header-nav-options">
+                    <li class="header-nav-brand">
+                        <div class="brand-holder">
+                            <a href="http://www.codecovers.eu/materialadmin/dashboards/dashboard">
+                                <span class="text-lg text-bold text-primary">Archdesign Hub ADMIN</span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="btn btn-icon-toggle menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="headerbar-right">
+                <ul class="header-nav header-nav-options">
+                    <li>
+                        <!-- Search form -->
+                        <form class="navbar-search" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="headerSearch" placeholder="Enter your keyword">
+                            </div>
+                            <button type="submit" class="btn btn-icon-toggle ink-reaction"><i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </li>
+                    <li class="dropdown hidden-xs">
+                        <a href="javascript:void(0);" class="btn btn-icon-toggle btn-default" data-toggle="dropdown">
+                            <i class="fa fa-bell"></i><sup class="badge style-danger">4</sup>
+                        </a>
+                        <ul class="dropdown-menu animation-expand">
+                            <li class="dropdown-header">Today's messages</li>
+                            <li>
+                                <a class="alert alert-callout alert-warning" href="javascript:void(0);">
+                                    <img class="pull-right img-circle dropdown-avatar" src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar2.jpg?1422538624" alt="" />
+                                    <strong>Alex Anistor</strong>
+                                    <br/>
+                                    <small>Testing functionality...</small>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="alert alert-callout alert-info" href="javascript:void(0);">
+                                    <img class="pull-right img-circle dropdown-avatar" src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar3.jpg?1422538624" alt="" />
+                                    <strong>Alicia Adell</strong>
+                                    <br/>
+                                    <small>Reviewing last changes...</small>
+                                </a>
+                            </li>
+                            <li class="dropdown-header">Options</li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/login">View all messages <span class="pull-right"><i class="fa fa-arrow-right"></i></span></a>
+                            </li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/login">Mark as read <span class="pull-right"><i class="fa fa-arrow-right"></i></span></a>
+                            </li>
+                        </ul>
+                        <!--end .dropdown-menu -->
+                    </li>
+                    <!--end .dropdown -->
+                    <li class="dropdown hidden-xs">
+                        <a href="javascript:void(0);" class="btn btn-icon-toggle btn-default" data-toggle="dropdown">
+                            <i class="fa fa-area-chart"></i>
+                        </a>
+                        <ul class="dropdown-menu animation-expand">
+                            <li class="dropdown-header">Server load</li>
+                            <li class="dropdown-progress">
+                                <a href="javascript:void(0);">
+                                    <div class="dropdown-label">
+                                        <span class="text-light">Server load <strong>Today</strong></span>
+                                        <strong class="pull-right">93%</strong>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-danger" style="width: 93%"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <!--end .dropdown-progress -->
+                            <li class="dropdown-progress">
+                                <a href="javascript:void(0);">
+                                    <div class="dropdown-label">
+                                        <span class="text-light">Server load <strong>Yesterday</strong></span>
+                                        <strong class="pull-right">30%</strong>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" style="width: 30%"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <!--end .dropdown-progress -->
+                            <li class="dropdown-progress">
+                                <a href="javascript:void(0);">
+                                    <div class="dropdown-label">
+                                        <span class="text-light">Server load <strong>Lastweek</strong></span>
+                                        <strong class="pull-right">74%</strong>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning" style="width: 74%"></div>
+                                    </div>
+                                </a>
+                            </li>
+                            <!--end .dropdown-progress -->
+                        </ul>
+                        <!--end .dropdown-menu -->
+                    </li>
+                    <!--end .dropdown -->
+                </ul>
+                <!--end .header-nav-options -->
+                <ul class="header-nav header-nav-profile">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
+                            <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar1.jpg?1422538623" alt="" />
+                            <span class="profile-info">
+						Daniel Johnson
+						<small>Administrator</small>
+					</span>
+                        </a>
+                        <ul class="dropdown-menu animation-dock">
+                            <li class="dropdown-header">Config</li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/profile">My profile</a>
+                            </li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/blog/post"><span class="badge style-danger pull-right">16</span>My blog</a>
+                            </li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/calendar">My appointments</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/locked"><i class="fa fa-fw fa-lock"></i> Lock</a>
+                            </li>
+                            <li><a href="http://www.codecovers.eu/materialadmin/pages/login"><i class="fa fa-fw fa-power-off text-danger"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!--end .dropdown-menu -->
+                    </li>
+                    <!--end .dropdown -->
+                </ul>
+                <!--end .header-nav-profile -->
+                <ul class="header-nav header-nav-toggle">
+                    <li>
+                        <a class="btn btn-icon-toggle btn-default" href="#offcanvas-search" data-toggle="offcanvas" data-backdrop="false">
+                            <i class="fa fa-ellipsis-v"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!--end .header-nav-toggle -->
+            </div>
+            <!--end #header-navbar-collapse -->
+        </div>
+    </header>
+    <!-- END HEADER-->
+
+    <!-- BEGIN BASE-->
+    <div id="base">
+        <!-- BEGIN OFFCANVAS LEFT -->
+        <div class="offcanvas">
+        </div>
+        <!--end .offcanvas-->
+        <!-- END OFFCANVAS LEFT -->
+
+        <!-- BEGIN CONTENT-->
+        <div id="content">
+
+            <section>
+                <div class="section-body">
+                    <div class="row">
+
+                        <!-- BEGIN ALERT - USERS -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card">
+                                <div class="card-body no-padding">
+                                    <div class="alert alert-callout alert-info no-margin">
+                                        <!--<strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong>-->
+                                        <strong class="text-xl">255</strong>
+                                        <br/>
+                                        <span class="opacity-50">Registered Users</span>
+                                        <div class="stick-bottom-left-right">
+                                            <div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end .card-body -->
+                            </div>
+                            <!--end .card -->
+                        </div>
+                        <!--end .col -->
+                        <!-- END ALERT - USERS -->
+
+                        <!-- BEGIN ALERT - AGENTS -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card">
+                                <div class="card-body no-padding">
+                                    <div class="alert alert-callout alert-warning no-margin">
+                                        <!--<strong class="pull-right text-warning text-lg">0,01% <i class="md md-swap-vert"></i></strong>-->
+                                        <strong class="text-xl">21</strong>
+                                        <br/>
+                                        <span class="opacity-50">Agents</span>
+                                        <div class="stick-bottom-right">
+                                            <div class="height-1 sparkline-visits" data-bar-color="#e5e6e6"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end .card-body -->
+                            </div>
+                            <!--end .card -->
+                        </div>
+                        <!--end .col -->
+                        <!-- END ALERT - AGENTS -->
+
+                        <!-- BEGIN ALERT - LISTINGS -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card">
+                                <div class="card-body no-padding">
+                                    <div class="alert alert-callout alert-danger no-margin">
+                                        <!--<strong class="pull-right text-danger text-lg">0,18% <i class="md md-trending-down"></i></strong>-->
+                                        <strong class="text-xl">142</strong>
+                                        <br/>
+                                        <span class="opacity-50">Property Listings</span>
+                                        <div class="stick-bottom-left-right">
+                                            <div class="progress progress-hairline no-margin">
+                                                <div class="progress-bar progress-bar-danger" style="width:43%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end .card-body -->
+                            </div>
+                            <!--end .card -->
+                        </div>
+                        <!--end .col -->
+                        <!-- END ALERT - LISTINGS -->
+
+                        <!-- BEGIN ALERT - TIME ON SITE -->
+                        <div class="col-md-3 col-sm-6">
+                            <div class="card">
+                                <div class="card-body no-padding">
+                                    <div class="alert alert-callout alert-success no-margin">
+                                        <!--<h1 class="pull-right text-success"><i class="md md-timer"></i></h1>-->
+                                        <strong class="text-xl">54</strong>
+                                        <br/>
+                                        <span class="opacity-50">Reviews</span>
+                                    </div>
+                                </div>
+                                <!--end .card-body -->
+                            </div>
+                            <!--end .card -->
+                        </div>
+                        <!--end .col -->
+                        <!-- END ALERT - TIME ON SITE -->
+
+                    </div>
+                    <!--end .row -->
+                    <div class="row">
+
+
+                    </div>
+                    <!--end .row -->
+                    <div class="row">
+
+                        <!-- Start of dashboard content-->
+                        <div ng-show="nav === 'home'">
+                            <!-- BEGIN INFO CARD -->
+                            <div class="col-md-6">
+                                <div class="card card-bordered style-primary">
+                                    <div class="card-head">
+                                        <div class="tools">
+                                            <div class="btn-group">
+                                                <div class="btn-group">
+                                                    <a href="#" class="btn btn-icon-toggle dropdown-toggle" data-toggle="dropdown"><i class="md md-colorize"></i></a>
+                                                    <ul class="dropdown-menu animation-dock pull-right menu-card-styling" role="menu" style="text-align: left;"> <a class="btn btn-icon-toggle btn-refresh"><i class="md md-refresh"></i></a>
+                                                        <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+                                                        <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <header>About</header>
+                                    </div>
+                                    <!--end .card-head -->
+                                    <div class="card-body">
+                                        <p>This is a restricted access portal for the admin to directly manage the site's and app's content. While still under development some fetures may be unavailable.</p>
+
+                                    </div>
+                                    <!--end .card-body -->
+                                </div>
+                                <!--end .card -->
+                            </div>
+                            <!--end .col -->
+                            <!-- END INFO CARD -->
+
+                            <!-- Begin Registered Users -->
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-head">
+                                        <div class="tools">
+                                            <div class="btn-group">
+                                                <div class="btn-group">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <header>Recently Registered Users</header>
+                                    </div>
+                                    <div class="card-body no-padding">
+                                        <ul class="list divider-full-bleed">
+                                            <li class="tile">
+                                                <a class="tile-content ink-reaction" href="#2">
+                                                    <div class="tile-icon">
+                                                        <img src="http://www.google.com/imgres?imgurl=http://p1cdn05.thewrap.com/images/2014/10/Lizzy-Caplan.jpg&imgrefurl=http://www.thewrap.com/lizzy-caplan-in-talks-to-join-jesse-eisenberg-dave-franco-in-now-you-see-me-2-exclusive/&h=412&w=325&tbnid=MW8Gehp9OaQVzM:&zoom=1&docid=Negr6ypxB48y_M&ei=E5hHVZi6G-Te7Abp2YHAAw&tbm=isch" alt="" />
+                                                    </div>
+                                                    <div class="tile-text">Abbey Johnson</div>
+                                                </a>
+                                                <a class="btn btn-flat ink-reaction">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </li>
+                                            <li class="tile">
+                                                <a class="tile-content ink-reaction">
+                                                    <div class="tile-icon">
+                                                        <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar4.jpg?1422538625" alt="" />
+                                                    </div>
+                                                    <div class="tile-text">Alex Nelson</div>
+                                                </a>
+                                                <a class="btn btn-flat ink-reaction">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </li>
+                                            <li class="tile">
+                                                <a class="tile-content ink-reaction">
+                                                    <div class="tile-icon">
+                                                        <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar11.jpg?1422538623" alt="" />
+                                                    </div>
+                                                    <div class="tile-text">Mary Peterson</div>
+                                                </a>
+                                                <a class="btn btn-flat ink-reaction">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </li>
+                                            <li class="tile">
+                                                <a class="tile-content ink-reaction">
+                                                    <div class="tile-icon">
+                                                        <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar7.jpg?1422538626" alt="" />
+                                                    </div>
+                                                    <div class="tile-text">Trevor Hanson</div>
+                                                </a>
+                                                <a class="btn btn-flat ink-reaction">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--end .card-body -->
+                                </div>
+                                <!--end .card -->
+                            </div>
+                            <!-- End Registered Users -->
+                        </div>
+                        <!-- End of dashboard content-->
+
+                        <!--Start of login things-->
+                        <div class="col-lg-offset-3 col-lg-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-head card-head-lg style-primary">
+                                    <header>Please Login</header>
+
+                                </div>
+                                <!--end .card-head -->
+                                <div class="card-body">
+                                    Login with your Google Account
+                                    <blockquote><small>You will be signed in successfully only if your are a pre-registered admin</small>
+                                    </blockquote>
+                                </div>
+                                <button ng-click="signIn(false, userAuthed)" type="button" class="pull-right btn ink-reaction btn-raised btn-primary btn-loading-state" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">Login</button>
+                                <!--end .card-body -->
+                            </div>
+                            <!--end .card -->
+                        </div>
+                        <!-- end of login thing-->
+
+                        <!-- BEGIN REGISTER AGENT -->
+                        <div ng-show="nav === 'newAgent'">
+                            <div class="col-lg-offset-3 col-md-6 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="form">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="regular1">
+                                                <label for="regular1">Name</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password1">
+                                                <label for="password1">Tel</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="email" class="form-control" id="password1">
+                                                <label for="password1">Email</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="placeholder1">
+                                                <label for="placeholder1">Location</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea name="textarea1" id="textarea1" class="form-control" rows="3" placeholder=""></textarea>
+                                                <label for="textarea1">Description</label>
+                                            </div>
+
+                                            <div class=row>
+                                                <div class="cassini-padding col-lg-offset-3 col-md-3">
+                                                    <button type="button" class="btn ink-reaction btn-floating-action btn-primary"><i class="fa fa-check"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
+                                                    <button type="button" class="btn ink-reaction btn-floating-action btn-danger"><i class="fa fa-remove"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--end .card-body -->
+                                </div>
+                                <!--end .card -->
+                            </div>
+                            <!--end .col -->
+                            <!-- END REGISTER AGENT -->
+                        </div>
+
+                        <!-- BEGIN NEW LISTING -->
+                        <div ng-show="nav === 'newListing'">
+                            <div class="col-lg-offset-3 col-md-6 col-sm-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form class="form">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="regular1">
+                                                <label for="regular1">Name</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password1">
+                                                <label for="password1">Value</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="placeholder1">
+                                                <label for="placeholder1">Email</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="help1">
+                                                <label for="help1">Location</label>
+                                                <p class="help-block">Use a street address</p>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="tooltip1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="Website, will use agent't if unavailable">
+                                                <label for="help1">Website</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <select id="select1" name="select1" class="form-control">
+                                                    <option value="">&nbsp;</option>
+                                                    <option value="30">Lease</option>
+                                                    <option value="40">Sale</option>
+                                                </select>
+                                                <label for="select1">Intent</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <select id="select1" name="select1" class="form-control">
+                                                    <option value="">&nbsp;</option>
+                                                    <option value="30">Holdings</option>
+                                                    <option value="40">Carlisle</option>
+                                                    <option value="50">Redmond</option>
+                                                    <option value="60">Toto</option>
+                                                    <option value="70">Nakuru</option>
+                                                </select>
+                                                <label for="select1">Agent</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <textarea name="textarea1" id="textarea1" class="form-control" rows="3" placeholder=""></textarea>
+                                                <label for="textarea1">Description</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The area in square meters covered by the property">
+                                                <label for="password1">Area</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The number of bedrooms available on the property">
+                                                <label for="password1">Bedrooms</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The number of bedrooms available on the property">
+                                                <label for="password1">Bathrooms</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The space provided bt the property in cubic meters">
+                                                <label for="password1">Volume</label>
+                                            </div>
+                                            <div class=row>
+                                                <div class="cassini-padding  col-lg-offset-3 col-md-3">
+                                                    <button type="button" class="btn ink-reaction btn-floating-action btn-primary"><i class="fa fa-check"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
+                                                    <button type="button" class="btn ink-reaction btn-floating-action btn-danger"><i class="fa fa-remove"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!--end .card-body -->
+                                </div>
+                                <!--end .card -->
+                            </div>
+                        </div>
+                        <!-- END NEW LISTING -->
+
+                        <!-- Start of upload pics dialog-->
+                        <div class="col-lg-offset-1 col-md-8">
+                            <div class="card">
+                                <div class="card-head style-primary">
+                                    <header>Drag and drop uploader</header>
+                                </div>
+                                <div class="card-body no-padding">
+                                    <form action="" class="dropzone dz-clickable" id="my-awesome-dropzone">
+                                        <div class="dz-message">
+                                            <h3>Drop files here or click to upload.</h3>
+                                            <em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</em>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--end .card-body -->
+                            </div>
+                            <!--end .card -->
+                            <em class="text-caption">Dropzone file upload</em>
+                        </div>
+                        <!-- End of upload pics dialog-->
+
+
+                    </div>
+                    <!--end .row -->
+                </div>
+                <!--end .section-body -->
+            </section>
+
+        </div>
+        <!--end #content-->
+        <!-- END CONTENT -->
+
+        <!-- BEGIN MENUBAR-->
+        <div id="menubar" class="menubar-inverse ">
+            <div class="menubar-fixed-panel">
+                <div>
+                    <a class="btn btn-icon-toggle btn-default menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+                <div class="expanded">
+                    <a href="http://www.codecovers.eu/materialadmin/dashboards/dashboard">
+                        <span class="text-lg text-bold text-primary ">Archdesign Design&nbsp;ADMIN</span>
+                    </a>
+                </div>
+            </div>
+            <div class="menubar-scroll-panel">
+                <!-- BEGIN MAIN MENU -->
+
+                <ul id="main-menu" class="gui-controls">
+                    <!-- BEGIN DASHBOARD -->
+                    <li>
+                        <a href="#" ng-click="nav = 'home'" ng-class="{active : nav === 'home'}">
+                            <div class="gui-icon"><i class="fa fa-home"></i>
+                            </div>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END DASHBOARD -->
+
+                    <!-- BEGIN ADD CONTENT -->
+                    <li class="gui-folder">
+                        <a ng-class="{active : nav === 'newListing' || nav === 'newAgent'}">
+                            <div class="gui-icon"><i class="fa fa-plus-circle"></i>
+                            </div>
+                            <span class="title">Add</span>
+                        </a>
+                        <!--start submenu -->
+                        <ul>
+                            <li><a href="#" ng-click="nav = 'newAgent'"><span class="title">Agent</span></a>
+                            </li>
+
+                            <li><a href="#" ng-click="nav = 'newListing'"><span class="title">Property Listing</span></a>
+                            </li>
+
+                        </ul>
+                        <!--end /submenu -->
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END ADD -->
+
+                    <!-- BEGIN USERS -->
+                    <li>
+                        <a href="#">
+                            <div class="gui-icon"><i class="fa fa-users"></i>
+                            </div>
+                            <span class="title">Users</span>
+                        </a>
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END USERS -->
+
+                    <!-- BEGIN UI -->
+                    <!-- BEGIN AGENTS -->
+                    <li>
+                        <a href="#">
+                            <div class="gui-icon"><i class="fa fa-user-secret"></i>
+                            </div>
+                            <span class="title">Agents</span>
+                        </a>
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END AGENTS -->
+
+
+                    <!-- BEGIN PROPERTY LISTINGS -->
+                    <li>
+                        <a>
+                            <div class="gui-icon"><i class="fa fa-bank"></i>
+                            </div>
+                            <span class="title">Property Listings</span>
+                        </a>
+
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END ROPERTY LISTINGS -->
+                </ul>
+                <!--end .main-menu -->
+                <!-- END MAIN MENU -->
+
+                <div class="menubar-foot-panel">
+                    <small class="no-linebreak hidden-folded">
+						<span class="opacity-75">Copyright &copy; 2015</span> <strong>Singularity</strong>
+					</small>
+                </div>
+            </div>
+            <!--end .menubar-scroll-panel-->
+        </div>
+        <!--end #menubar-->
+        <!-- END MENUBAR -->
+
+        <!-- BEGIN OFFCANVAS RIGHT -->
+        <div class="offcanvas">
+
+        </div>
+        <!--end .offcanvas-->
+        <!-- END OFFCANVAS RIGHT -->
+
+    </div>
+    <!--end #base-->
+    <!-- END BASE -->
+
+
+    <!-- BEGIN JAVASCRIPT -->
+
+
+    <!--Theme Specific-->
+    <script src="/js/theme/jquery-1.11.2.min.js"></script>
+    <script src="/js/theme/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/js/theme/bootstrap.min.js"></script>
+    <script src="/js/theme/spin.min.js"></script>
+    <script src="/js/theme/jquery.autosize.min.js"></script>
+    <script src="/js/theme/moment.min.js"></script>
+    <script src="/js/theme/ec2c8835c9f9fbb7b8cd36464b491e73.js"></script>
+    <script src="/js/theme/jquery.knob.min.js"></script>
+    <script src="/js/theme/jquery.sparkline.min.js"></script>
+    <script src="/js/theme/jquery.nanoscroller.min.js"></script>
+    <script src="/js/theme/43ef607ee92d94826432d1d6f09372e1.js"></script>
+    <!-- <script src="/js/theme/rickshaw.min.js"></script>
+        <script src="/js/theme/DemoDashboard.js"></script>-->
+
+    <script src="/js/theme/63d0445130d69b2868a8d28c93309746.js"></script>
+    <script src="/js/theme/Demo.js"></script>
+
+    <!-- Angular JS Stuff-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="/js/constants.js"></script>
+    <script src="/js/app.js"></script>
+
+
+    <!-- Maps-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkcpOC0vr4wpiV2UH7iBqtbbK0M3MX1qE" type="text/javascript"></script>
+    <script src="js/map-am.js"></script>
+
+    <!--scripts for google search (image search)
+    <script src="https://www.google.com/jsapi"></script>
+    <script src="js/search.js"></script>
+
+    <!-- To load gapi client libraries-->
+    <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <!--<script src="js/ga.js"></script>-->
+
+    <!-- END JAVASCRIPT -->
+
+
+
+</body>
+
+</html>
