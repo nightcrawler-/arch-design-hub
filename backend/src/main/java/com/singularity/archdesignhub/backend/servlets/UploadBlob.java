@@ -10,7 +10,6 @@ import com.singularity.archdesignhub.backend.endpoints.ImageEndpoint;
 import com.singularity.archdesignhub.backend.entities.Image;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -41,8 +40,7 @@ public class UploadBlob extends HttpServlet {
         for (BlobKey blobKey : blobKeys) {
             //do something
             if (blobKey != null) {
-                updateImageInfo(req.getParameter("ownwerId"),
-                        blobKey);
+                updateImageInfo(req.getParameter("ownerId"), blobKey);
                 commaSepKeys += blobKey.getKeyString() + (blobKeys.indexOf(blobKey) == blobKeys.size() - 1 ? "" : ",");
             }
 
@@ -53,11 +51,7 @@ public class UploadBlob extends HttpServlet {
             res.setStatus(HttpServletResponse.SC_NO_CONTENT);
         } else {
             res.setStatus(HttpServletResponse.SC_OK);
-            res.setContentType("text/plain");
-            PrintWriter out = res.getWriter();
-            out.print(commaSepKeys);
-            out.flush();
-            out.close();
+            res.sendRedirect("/dashboard.html");
         }
 
 

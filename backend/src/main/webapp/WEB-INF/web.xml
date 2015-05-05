@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
@@ -20,7 +20,9 @@
                 com.singularity.archdesignhub.backend.endpoints.PropertyEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.UserEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.WaitingUserEndpoint,
-                com.singularity.archdesignhub.backend.endpoints.ImageEndpoint</param-value>
+                com.singularity.archdesignhub.backend.endpoints.ImageEndpoint,
+                com.singularity.archdesignhub.backend.endpoints.UploadUrlEndpoint
+            </param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

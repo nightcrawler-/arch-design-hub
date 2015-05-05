@@ -24,7 +24,7 @@ public class GetUploadUrl extends HttpServlet {
 
 		String blobUploadUrl = BlobstoreServiceFactory.getBlobstoreService()
 				.createUploadUrl(
-						"/uploadBlob?clientId=" + ownerId);
+						"/uploadBlob?ownerId=" + ownerId);
 		res.setStatus(HttpServletResponse.SC_OK);
 		res.setContentType("text/plain");
 		PrintWriter out = res.getWriter();
