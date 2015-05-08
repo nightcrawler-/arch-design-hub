@@ -1,11 +1,13 @@
 package com.singularity.archdesignhub.ui;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.singularity.archdesignhub.R;
+import com.singularity.archdesignhub.data.CassiniContract;
 
 
 public class ListingDetailActivity extends ActionBarActivity {
@@ -14,6 +16,12 @@ public class ListingDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listing_detail);
+
+        Bundle extras = getIntent().getExtras();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, ListingDetailFragment.getInstance(extras != null ? extras.getLong(CassiniContract.PropertyEntry.C_ID) : 0)).commit();
     }
 
 

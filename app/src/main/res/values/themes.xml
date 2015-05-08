@@ -6,12 +6,12 @@
         <item name="android:textColor">@color/ca_title_white</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.Cassini">
+    <style name="AppTheme" parent="Theme.Archdesignhub">
         <item name="android:actionBarStyle">@style/Widget.ActionBar</item>
         <item name="actionBarStyle">@style/Widget.ActionBar</item>
     </style>
 
-    <style name="AppTheme2" parent="Theme.Cassini">
+    <style name="AppTheme2" parent="Theme.Archdesignhub">
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
@@ -19,7 +19,7 @@
         <item name="android:background">#ffffff</item>
     </style>
 
-    <style name="AppTheme.TranslucentActionBar" parent="Theme.Cassini">
+    <style name="AppTheme.TranslucentActionBar" parent="Theme.Archdesignhub">
         <item name="android:actionBarStyle">@style/Widget.ActionBar.Transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="actionBarStyle">@style/Widget.ActionBar.Transparent</item>

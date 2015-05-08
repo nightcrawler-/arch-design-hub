@@ -136,9 +136,13 @@ public class ImageEndpoint {
             name = "list",
             path = "image",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<Image> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Image> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit, @Nullable @Named("ownerId") String ownerId) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
         Query<Image> query = ofy().load().type(Image.class).limit(limit);
+
+        if (ownerId != null)
+            query.filter("ownerId", ownerId);
+
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }

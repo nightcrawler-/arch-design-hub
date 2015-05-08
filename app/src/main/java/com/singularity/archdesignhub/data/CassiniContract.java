@@ -18,15 +18,11 @@ public class CassiniContract {
     // Use CONTENT_AUTHORITY to create the base of all URI's which apps will use to contact
     // the content provider.
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
-    // Possible paths (appended to base content URI for possible URI's)
-    // For instance, content://com.example.android.sunshine.app/weather/ is a valid path for
-    // looking at weather data. content://com.example.android.sunshine.app/givemeroot/ will fail,
-    // as the ContentProvider hasn't been given any information on what to do with "givemeroot".
-    // At least, let's hope not.  Don't be that dev, reader.  Don't be that dev.
     public static final String PATH_PROPERTY = "property";
     public static final String PATH_AGENT = "agent";
     public static final String PATH_USER = "user";
+    public static final String PATH_IMAGE = "image";
+    public static final String PATH_COMMENT = "comment";
 
 
     /* Inner class that defines the table contents of the property table */
@@ -41,7 +37,7 @@ public class CassiniContract {
                 "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_PROPERTY;
 
         // Table name
-        public static final String TABLE_NAME = "property";
+        public static final String TABLE_NAME = "properties";
 
         //Column names
         public static final String C_ID = "_ID";
@@ -83,7 +79,7 @@ public class CassiniContract {
                 "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_AGENT;
 
         // Table name
-        public static final String TABLE_NAME = "agent";
+        public static final String TABLE_NAME = "agents";
 
         //Column names
         public static final String C_ID = "_ID";
@@ -118,7 +114,7 @@ public class CassiniContract {
                 "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_USER;
 
         // Table name
-        public static final String TABLE_NAME = "user";
+        public static final String TABLE_NAME = "users";
 
         //Column names
         public static final String C_ID = "_ID";
@@ -128,9 +124,63 @@ public class CassiniContract {
         public static final String C_EMAIL = "email";
 
 
-
-        public static Uri buildAgentUri(long id) {
+        public static Uri buildUserUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
+
+    /* Inner class that defines the table contents of the images table */
+    public static final class ImageEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_IMAGE).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_IMAGE;
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_IMAGE;
+
+        // Table name
+        public static final String TABLE_NAME = "images";
+
+        //Column names
+        public static final String C_ID = "_ID";
+        public static final String C_NAME = "name";
+        public static final String C_URL = "url";
+        public static final String C_OWNER_ID = "ownerId";
+
+
+        public static Uri buildImageUri(long ownerId) {
+            return ContentUris.withAppendedId(CONTENT_URI, ownerId);
+        }
+    }
+
+    /* Inner class that defines the table contents of the images table */
+    public static final class CommentEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_COMMENT).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_COMMENT;
+
+        // Table name
+        public static final String TABLE_NAME = "comments";
+
+        //Column names
+        public static final String C_ID = "_ID";
+        public static final String C_COMMENT = "comment";
+        public static final String C_OWNER_ID = "ownerId";
+
+
+        public static Uri buildCommentUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+
+    }
+
+
 }

@@ -4,7 +4,17 @@
     tools:context="singularity.com.cassini.ui.HomeActivity">
     <item
         android:id="@+id/action_settings"
-        android:title="@string/action_settings"
         android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sync"
+        android:orderInCategory="100"
+        android:title="Sync"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_details"
+        android:orderInCategory="100"
+        android:title="Details"
         app:showAsAction="never" />
 </menu>

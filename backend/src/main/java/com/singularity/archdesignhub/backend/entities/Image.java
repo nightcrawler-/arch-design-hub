@@ -11,7 +11,9 @@ public class Image {
     @Id
     private String blobKeyString;
     private String servingUrl;
-    private String ownerId, name;
+
+    private String ownerId;
+    private String name;
     private long time;
 
     public String getName() {

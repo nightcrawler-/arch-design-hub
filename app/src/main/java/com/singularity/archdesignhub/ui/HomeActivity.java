@@ -1,6 +1,9 @@
 package com.singularity.archdesignhub.ui;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,13 +18,60 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.Profile;
 import com.singularity.archdesignhub.R;
+import com.singularity.archdesignhub.data.SyncIntentService;
 
 
 public class HomeActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     public static final String TAG = HomeActivity.class.getSimpleName();
+
+    // Constants
+    // The authority for the sync adapter's content provider
+    public static final String AUTHORITY = "com.singularity.archdesignhub";
+    // An account type, in the form of a domain name
+    public static final String ACCOUNT_TYPE = "com.singularity.archdesignhub";
+    // The account name
+    public static final String ACCOUNT = "singularity";
+    // Instance fields
+    Account mAccount;
+
+    /**
+     * Create a new dummy account for the sync adapter
+     *
+     * @param context The application context
+     */
+    public static Account CreateSyncAccount(Context context) {
+        // Create the account type and default account
+        Account newAccount = new Account(
+                ACCOUNT, ACCOUNT_TYPE);
+        // Get an instance of the Android account manager
+        AccountManager accountManager =
+                (AccountManager) context.getSystemService(
+                        ACCOUNT_SERVICE);
+        /*
+         * Add the account and account type, no password or user data
+         * If successful, return the Account object, otherwise report an error.
+         */
+        if ((accountManager.addAccountExplicitly(newAccount, null, null))) {
+            Log.i("ME", "success acc");
+
+            /*
+             * If you don't set android:syncable="true" in
+             * in your <provider> element in the manifest,
+             * then call context.setIsSyncable(account, AUTHORITY, 1)
+             * here.
+             */
+        } else {
+            Log.e("ME", "error acc");
+            /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+        }
+        return newAccount;
+    }
+
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -36,7 +86,7 @@ public class HomeActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_cassini, null));
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_archdesignhub, null));
         setContentView(R.layout.activity_home);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -58,6 +108,9 @@ public class HomeActivity extends ActionBarActivity
         switch (position) {
             case 0:
                 current = ListingFragment.newInstance(position);
+                break;
+            case 1:
+                current = AgentsFragment.newInstance(position);
                 break;
             default:
                 current = ListingFragment.newInstance(position);
@@ -117,8 +170,15 @@ public class HomeActivity extends ActionBarActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, LoginSelectionActivity.class));
+
+            return true;
+        } else if (id == R.id.action_sync) {
+            SyncIntentService.startActionFetch(this);
+        } else if (id == R.id.action_details) {
             startActivity(new Intent(this, ListingDetailActivity.class));
             return true;
+
         }
 
         return super.onOptionsItemSelected(item);

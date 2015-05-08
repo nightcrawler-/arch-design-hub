@@ -3,6 +3,8 @@ package com.singularity.archdesignhub.backbone;
 import android.content.ContentValues;
 
 import com.singularity.archdesignhub.backend.entities.agentApi.model.Agent;
+import com.singularity.archdesignhub.backend.entities.commentApi.model.Comment;
+import com.singularity.archdesignhub.backend.entities.imageApi.model.Image;
 import com.singularity.archdesignhub.backend.entities.propertyApi.model.Property;
 import com.singularity.archdesignhub.data.CassiniContract;
 
@@ -27,20 +29,39 @@ public class Backbone extends BackboneBase {
         return backbone;
     }
 
+    public ContentValues[] getImages() throws IOException {
+        List<Image> images = imageApi.list().execute().getItems();
+        ContentValues[] values = new ContentValues[images.size()];
+        for (Image image : images)
+            values[images.indexOf(image)] = getImageContentValues(image);
 
-    public List<Property> getListings() throws IOException {
-        return propertyApi.list().execute().getItems();
+        return values;
     }
 
-    public List<Agent> getAgents() throws IOException {
-        return agentApi.list().execute().getItems();
+    public ContentValues[] getAgents() throws IOException {
+        List<Agent> agents = agentApi.list().execute().getItems();
+        ContentValues values[] = new ContentValues[agents.size()];
+        for (Agent agent : agents)
+            values[agents.indexOf(agent)] = getAgentContentValues(agent);
+        return values;
     }
 
+
+    public ContentValues[] getPropertyListings() throws IOException {
+        List<Property> properties = propertyApi.list().execute().getItems();
+        ContentValues[] listings = new ContentValues[properties.size()];
+        for (Property property : properties)
+            listings[properties.indexOf(property)] = getPropertyContentValues(property);
+        return listings;
+    }
 
     private ContentValues getAgentContentValues(Agent agent) {
         ContentValues values = new ContentValues();
-
-
+        values.put(CassiniContract.AgentEntry.C_ADDRESS, agent.getAddress());
+        values.put(CassiniContract.AgentEntry.C_ID, agent.getId());
+        values.put(CassiniContract.AgentEntry.C_NAME, agent.getName());
+        values.put(CassiniContract.AgentEntry.C_TEL, agent.getTel());
+        values.put(CassiniContract.AgentEntry.C_EMAIL, agent.getEmail());
         return values;
     }
 
@@ -66,10 +87,27 @@ public class Backbone extends BackboneBase {
         values.put(CassiniContract.PropertyEntry.C_VALUE, property.getValue());
         values.put(CassiniContract.PropertyEntry.C_VOLUME, property.getVolume());
         values.put(CassiniContract.PropertyEntry.C_WEBSITE, property.getWebsite());
+        return values;
+
+    }
+
+    private ContentValues getImageContentValues(Image image) {
+        ContentValues values = new ContentValues();
+        values.put(CassiniContract.ImageEntry.C_ID, image.getBlobKeyString());
+        values.put(CassiniContract.ImageEntry.C_NAME, image.getName());
+        values.put(CassiniContract.ImageEntry.C_OWNER_ID, image.getOwnerId());
+        values.put(CassiniContract.ImageEntry.C_URL, image.getServingUrl());
+        return values;
+    }
+
+    private ContentValues getCommentsContentValues(Comment comment) {
+        ContentValues values = new ContentValues();
+        values.put(CassiniContract.CommentEntry.C_ID, comment.getId());
+        values.put(CassiniContract.CommentEntry.C_COMMENT, comment.getDetail());
+        values.put(CassiniContract.CommentEntry.C_OWNER_ID, comment.getOwnerId());
 
 
         return values;
-
     }
 
 }

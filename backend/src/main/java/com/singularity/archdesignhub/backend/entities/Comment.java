@@ -11,9 +11,20 @@ public class Comment {
 
     @Id
     private Long id;
-    private String sourceId, detail, type, reply;
+
+    private String ownerId;
+    private String detail, type, reply;
     private long time;
     private int upvote, downvote;
+
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
     public String getReply() {
         return reply;
@@ -45,14 +56,6 @@ public class Comment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(String sourceId) {
-        this.sourceId = sourceId;
     }
 
     public String getDetail() {

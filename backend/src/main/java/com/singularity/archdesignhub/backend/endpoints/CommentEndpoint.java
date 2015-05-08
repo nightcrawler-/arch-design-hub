@@ -136,9 +136,13 @@ public class CommentEndpoint {
             name = "list",
             path = "comment",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<Comment> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Comment> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit, @Nullable @Named("ownerId") String ownerId) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
         Query<Comment> query = ofy().load().type(Comment.class).limit(limit);
+
+        if (ownerId != null)
+            query.filter("ownerId", ownerId);
+
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }

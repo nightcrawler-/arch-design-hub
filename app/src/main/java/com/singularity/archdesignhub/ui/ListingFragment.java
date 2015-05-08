@@ -1,37 +1,58 @@
 package com.singularity.archdesignhub.ui;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.singularity.archdesignhub.App;
 import com.singularity.archdesignhub.R;
+import com.singularity.archdesignhub.data.CassiniContract;
 import com.singularity.archdesignhub.utils.Utils;
 
 
 /**
  * Created by Frederick on 4/23/2015.
  */
-public class ListingFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class ListingFragment extends Fragment implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
+
+    public static final String TAG = ListingFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private ListView list;
     private ListingAdapter adapter;
+    private static DisplayImageOptions options;
     protected static ImageLoader imageLoader = ImageLoader.getInstance();
-    static DisplayImageOptions options;
+
+    private static final String[] LISTING_COLUMNS = {
+            CassiniContract.ImageEntry.C_URL,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_NAME,
+            CassiniContract.PropertyEntry.C_LOCATION,
+            CassiniContract.PropertyEntry.C_VALUE,
+            CassiniContract.PropertyEntry.C_INTENT,
+            CassiniContract.PropertyEntry.C_TEL
+
+
+    };
+    private int LISTINGS_LOADER = 0;
 
     public ListingFragment() {
     }
@@ -54,7 +75,20 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
                 container, false);
         list = (ListView) parent.findViewById(android.R.id.list);
         adapter = new ListingAdapter(getActivity());
+        FloatingActionButton fab = (FloatingActionButton) parent.findViewById(R.id.fab);
+        fab.attachToListView(list);
         list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG, "id -" + id);
+
+                Intent intent = new Intent(getActivity(), ListingDetailActivity.class);
+                intent.putExtra(CassiniContract.PropertyEntry.C_ID, id);
+                startActivity(intent);
+            }
+        });
 
         options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ca_image)
@@ -71,18 +105,33 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        getLoaderManager().initLoader(LISTINGS_LOADER, null, this);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return null;
+        Uri placesUri = CassiniContract.PropertyEntry.CONTENT_URI;
+        return new CursorLoader(
+                getActivity(),
+                placesUri,
+                LISTING_COLUMNS,
+                null,
+                null,
+                null
+        );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
+        adapter.setCursor(data);
+        Log.i(TAG, "loader finished");
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        adapter.setCursor(null);
     }
 
 
@@ -107,7 +156,8 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
 
         @Override
         public long getItemId(int position) {
-            return position;
+            cursor.moveToPosition(position);
+            return cursor.getLong(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_ID));
         }
 
         @Override
@@ -118,11 +168,11 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
                 convertView = inflater.inflate(R.layout.list_item_listing, null);
                 convertView.setTag(holder);
                 holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
-                holder.title = (TextView) convertView.findViewById(R.id.textView5);
-                holder.location = (TextView) convertView.findViewById(R.id.textView7);
-                holder.tel = (TextView) convertView.findViewById(R.id.textView6);
-                holder.cost = (TextView) convertView.findViewById(R.id.textView12);
-                holder.perMonth = (TextView) convertView.findViewById(R.id.textView13);
+                holder.title = (TextView) convertView.findViewById(R.id.textView10);
+                holder.location = (TextView) convertView.findViewById(R.id.textView17);
+                holder.tel = (TextView) convertView.findViewById(R.id.textView18);
+                holder.value = (TextView) convertView.findViewById(R.id.textView11);
+                holder.intentLabel = (TextView) convertView.findViewById(R.id.textView16);
 
                 Utils.applyFonts(convertView, App.getRobotoSlabLight());
 
@@ -132,7 +182,7 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            //cursor.moveToPosition(position);
+            cursor.moveToPosition(position);
             //hack for the padding at the bottom of the list
 //            if (position + 1 == getCount())
 //                holder.bottomPadding.setVisibility(View.VISIBLE);
@@ -140,18 +190,11 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
 //                holder.bottomPadding.setVisibility(View.GONE);
 
 
-//            holder.title.setText(cursor.getString(cursor.getColumnIndex(PlaceContract.PlacesEntry.COLUMN_NAME)));
-//            String firstPhotoRef = cursor.getString(cursor.getColumnIndex(PlaceContract.PlacesEntry.COLUMN_PHOTO_REFERENCE));
-
-
-//            if (firstPhotoRef == null || firstPhotoRef.length() == 0)
-//                holder.imageView.setVisibility(View.GONE);
-//            else {
-//                imageLoader.displayImage(Backbone.BASE_PHOTO_URL + firstPhotoRef, holder.imageView, options);
-//                holder.imageView.setVisibility(View.VISIBLE);
-//            }
-//
-            imageLoader.displayImage("drawable://" + R.drawable.lizzy, holder.imageView, options);
+            holder.title.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
+            holder.location.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_LOCATION)));
+            holder.tel.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
+            holder.value.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE)));
+            imageLoader.displayImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView, options);
 
 
             return convertView;
@@ -165,7 +208,7 @@ public class ListingFragment extends Fragment implements LoaderManager.LoaderCal
 
         private class ViewHolder {
             ImageView imageView;
-            TextView title, location, tel, cost, perMonth;
+            TextView title, location, tel, value, intentLabel;
             View bottomPadding;
         }
 
