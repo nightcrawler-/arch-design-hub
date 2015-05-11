@@ -14,9 +14,16 @@
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/ca_black_very_transluscent"
+        android:background="@color/ca_black_subtle_transluscent"
         android:gravity="center_horizontal|bottom"
         android:padding="@dimen/ca_content_padding">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView3"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="60dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -129,7 +136,8 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Not now"
             android:id="@+id/textView20"
-            android:textColor="@color/ca_title_white" />
+            android:textColor="@color/ca_title_white"
+            android:clickable="true" />
 
     </LinearLayout>
 

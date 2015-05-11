@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name = "ca_background_major">#404040</color>
-    <color name = "ca_background_minor">#242424</color>
-    <color name = "ca_orange">#ED7D31</color>
-    <color name = "ca_orange_transparent">#B3ED7D31</color>
-    <color name = "ca_title_white">#CBCBCB</color>
-    <color name = "ca_title_white_faded">#8B8B8B</color>
-    <color name = "ca_subtitle_faded">#6F6F6F</color>
-    <color name = "ca_black_transluscent">#D9000000</color>
-    <color name = "ca_black_very_transluscent">#26000000</color>
-    <color name = "ca_white_transluscent">#26ffffff</color>
-    <color name = "ca_detail_title">#FFFFFF</color>
-    <color name = "ca_detail_sub_title">#E4E4E4</color>
+    <color name="ca_background_major">#404040</color>
+    <color name="ca_background_minor">#242424</color>
+    <color name="ca_background">#8A8A8A</color>
+    <color name="ca_orange">#ED7D31</color>
+    <color name="ca_orange_transparent">#B3ED7D31</color>
+    <color name="ca_title_white">#CBCBCB</color>
+    <color name="ca_title_white_faded">#8B8B8B</color>
+    <color name="ca_subtitle_faded">#6F6F6F</color>
+    <color name="ca_black_transluscent">#D9000000</color>
+    <color name="ca_black_subtle_transluscent">#66000000</color>
+    <color name="ca_black_very_transluscent">#26000000</color>
+    <color name="ca_white_transluscent">#26ffffff</color>
+    <color name="ca_detail_title">#FFFFFF</color>
+    <color name="ca_detail_sub_title">#E4E4E4</color>
 
 
     <!-- PROGRESS BAR COLORS -->

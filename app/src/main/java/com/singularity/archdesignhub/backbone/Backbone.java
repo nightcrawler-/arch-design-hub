@@ -6,6 +6,7 @@ import com.singularity.archdesignhub.backend.entities.agentApi.model.Agent;
 import com.singularity.archdesignhub.backend.entities.commentApi.model.Comment;
 import com.singularity.archdesignhub.backend.entities.imageApi.model.Image;
 import com.singularity.archdesignhub.backend.entities.propertyApi.model.Property;
+import com.singularity.archdesignhub.backend.entities.userApi.model.User;
 import com.singularity.archdesignhub.data.CassiniContract;
 
 import java.io.IOException;
@@ -36,6 +37,20 @@ public class Backbone extends BackboneBase {
             values[images.indexOf(image)] = getImageContentValues(image);
 
         return values;
+    }
+
+    public User insert(User user) throws IOException {
+        return userApi.insert(user).execute();
+
+    }
+
+    public User updateUser(User user) throws IOException {
+        return userApi.update(user.getId(), user).execute();
+
+    }
+
+    public User getUser(User user) throws IOException {
+        return userApi.get(user.getId()).execute();
     }
 
     public ContentValues[] getAgents() throws IOException {

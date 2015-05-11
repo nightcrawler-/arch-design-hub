@@ -1,6 +1,7 @@
 package com.singularity.archdesignhub.backbone;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
@@ -13,8 +14,6 @@ import com.singularity.archdesignhub.utils.Utils;
 import java.io.IOException;
 
 
-
-
 public class GcmRegService extends IntentService {
     private static final String TAG = GcmRegService.class.getSimpleName();
     private static Registration regService = null;
@@ -23,8 +22,13 @@ public class GcmRegService extends IntentService {
     // TODO: change to your own sender ID to Google Developers Console project number, as per instructions above
     private static final String SENDER_ID = "460866140621";
 
+
     public GcmRegService() {
         super("GCMRegService");
+    }
+
+    public static void register(Context context) {
+        context.startService(new Intent(context, GcmRegService.class));
     }
 
     @Override

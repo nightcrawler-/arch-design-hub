@@ -2,6 +2,7 @@ package com.singularity.archdesignhub.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,9 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.singularity.archdesignhub.R;
 import com.singularity.archdesignhub.backend.entities.userApi.model.User;
+import com.singularity.archdesignhub.utils.Utils;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -30,7 +33,7 @@ import java.util.Arrays;
  */
 public class LoginSelectionActivity extends Activity {
     public static final String TAG = LoginSelectionActivity.class.getSimpleName();
-    private View facebookLogin, gplusLogin, emailLogin;
+    private View facebookLogin, gplusLogin, emailLogin, noLogin;
     private CallbackManager callbackManager;
     private GoogleApiClient mGoogleApiClient;
     private ConnectionResult mConnectionResult;
@@ -49,13 +52,22 @@ public class LoginSelectionActivity extends Activity {
         facebookLogin = findViewById(R.id.facebookLogin);
         gplusLogin = findViewById(R.id.gplusLogin);
         emailLogin = findViewById(R.id.emailLogin);
+        noLogin = findViewById(R.id.textView20);
 
         setUpFbLogin();
         mGoogleApiClient = buildGoogleApiClient();
+        noLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginDone();
+            }
+        });
 
         gplusLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+
                 performGpluslogin();
             }
         });
@@ -70,6 +82,8 @@ public class LoginSelectionActivity extends Activity {
         emailLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "Not yet implemented", Toast.LENGTH_SHORT).show();
+
                 performEmailLogin();
             }
         });
@@ -101,9 +115,17 @@ public class LoginSelectionActivity extends Activity {
 
     }
 
+
+    public void loginDone() {
+        Utils.setLoginDone(this, true);
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
+    }
+
     private void performEmailLogin() {
         loginType = EMAIL_LOGIN;
         startActivityForResult(new Intent(this, LoginActivity.class), EMAIL_LOGIN);
+
     }
 
     private GoogleApiClient buildGoogleApiClient() {
@@ -166,6 +188,13 @@ public class LoginSelectionActivity extends Activity {
                     protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                         Log.v("facebook - profile", profile2.getFirstName());
                         mProfileTracker.stopTracking();
+                        User user = new User();
+                        user.setId(profile2.getId());
+                        user.setName(profile2.getName());
+                        user.setImage(profile2.getProfilePictureUri(100, 100).toString());
+                        user.setExtra(profile2.getLinkUri().toString());
+                        user.setLoginType(String.valueOf(FB_LOGIN));
+                        new LoginTask(new com.singularity.archdesignhub.auth.LoginManager(getBaseContext())).execute(user);
                     }
                 };
                 mProfileTracker.startTracking();
@@ -198,9 +227,48 @@ public class LoginSelectionActivity extends Activity {
         super.onStop();
     }
 
-    public static class LoginObject {
-        public int type;
-        public User user;
+
+    public class LoginTask extends AsyncTask<User, Object, User> {
+        com.singularity.archdesignhub.auth.LoginManager loginManager;
+
+
+        public LoginTask(com.singularity.archdesignhub.auth.LoginManager loginManager) {
+            this.loginManager = loginManager;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected User doInBackground(User... params) {
+            User user = null;
+            if (Integer.parseInt(params[0].getLoginType()) == FB_LOGIN || Integer.parseInt(params[0].getLoginType()) == GPLUS_LOGIN) {
+                loginManager.cacheUser(params[0]);
+                try {
+                    user = loginManager.validateSocialLogin(params[0]);
+                    loginManager.setSocialAuthed(true);
+                    loginManager.setUserSignedIn(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    user = loginManager.validateEmailLogin(params[0]);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return user;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            super.onPostExecute(user);
+            loginDone();
+        }
     }
 
 

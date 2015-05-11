@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.singularity.archdesignhub.backbone.Backbone;
+import com.singularity.archdesignhub.utils.Utils;
 
 import java.io.IOException;
 
@@ -45,12 +46,14 @@ public class SyncIntentService extends IntentService {
     }
 
     private void handleActionFetch() {
+        int exceptionCount = 0;
         try {
             int num = mContentResolver.bulkInsert(CassiniContract.PropertyEntry.CONTENT_URI, Backbone.getInstance().getPropertyListings());
             Log.i(TAG, "inserted - " + num);
 
         } catch (IOException e) {
             e.printStackTrace();
+            exceptionCount++;
         }
         try {
             int num = mContentResolver.bulkInsert(CassiniContract.AgentEntry.CONTENT_URI, Backbone.getInstance().getAgents());
@@ -58,6 +61,7 @@ public class SyncIntentService extends IntentService {
 
         } catch (IOException e) {
             e.printStackTrace();
+            exceptionCount++;
         }
 
         try {
@@ -66,7 +70,12 @@ public class SyncIntentService extends IntentService {
 
         } catch (IOException e) {
             e.printStackTrace();
+            exceptionCount++;
         }
+
+        Utils.setDataFetched(getBaseContext(), (exceptionCount == 0));
+
+
     }
 
 

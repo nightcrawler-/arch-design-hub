@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -33,7 +33,7 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
 
     public static final String TAG = AgentsFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private ListView list;
+    private GridView list;
     private ListingAdapter adapter;
     private static DisplayImageOptions options;
     protected static ImageLoader imageLoader = ImageLoader.getInstance();
@@ -65,9 +65,9 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View parent = inflater.inflate(R.layout.fragment_home_list,
+        View parent = inflater.inflate(R.layout.fragment_agent_list,
                 container, false);
-        list = (ListView) parent.findViewById(android.R.id.list);
+        list = (GridView) parent.findViewById(android.R.id.list);
         adapter = new ListingAdapter(getActivity());
         list.setAdapter(adapter);
 

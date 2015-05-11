@@ -3,21 +3,54 @@ package com.singularity.archdesignhub.auth;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.singularity.archdesignhub.backbone.Backbone;
 import com.singularity.archdesignhub.backbone.BackboneBase;
 import com.singularity.archdesignhub.backend.entities.userApi.model.User;
 import com.singularity.archdesignhub.data.CassiniContract;
+
+import java.io.IOException;
 
 /**
  * Created by Frederick on 5/3/2015.
  */
 public class LoginManager extends BackboneBase {
     private static final String TAG = LoginManager.class.getSimpleName();
+    private static final String PREF_USER_SIGNED_IN = "user_signed_in";
+    private static final String PREF_SOCIAL_AUTHED = "social_authed";
+    private static final String PREF_GCM_REGISTERED = "gcm_registerd";
+    private static final String PREF_GCM_REG_ID = "gcm_reg_id";
+
+
     Context context;
     SharedPreferences prefs;
 
     public LoginManager(Context context) {
         super();
         this.context = context;
+    }
+
+    public boolean userSignedIn() {
+        return getPrefs().getBoolean(PREF_USER_SIGNED_IN, false);
+    }
+
+    public boolean socialAuthed() {
+        return getPrefs().getBoolean(PREF_SOCIAL_AUTHED, false);   }
+
+
+
+
+    public void setUserSignedIn(boolean signedIn) {
+        SharedPreferences.Editor editor = getPrefs().edit();
+        editor.putBoolean(PREF_GCM_REG_ID, signedIn);
+        editor.commit();
+
+    }
+
+    public void setSocialAuthed(boolean socialAuthed) {
+        SharedPreferences.Editor editor = getPrefs().edit();
+        editor.putBoolean(PREF_SOCIAL_AUTHED, socialAuthed);
+        editor.commit();
+
     }
 
     public void cacheUser(User user) {
@@ -39,11 +72,16 @@ public class LoginManager extends BackboneBase {
         return user;
     }
 
-    public void validateSocialLogin() {
+    public User validateSocialLogin(User user) throws IOException {
+        return Backbone.getInstance().insert(user);
 
     }
 
-    public void validateEmailLogin() {
+    public User validateEmailLogin(User user) throws IOException {
+        User savedUser = Backbone.getInstance().getUser(user);
+        if (savedUser == null)
+            savedUser = Backbone.getInstance().insert(user);
+        return savedUser;
 
     }
 

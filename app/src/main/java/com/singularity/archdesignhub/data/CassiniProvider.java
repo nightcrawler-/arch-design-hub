@@ -25,11 +25,17 @@ public class CassiniProvider extends ContentProvider {
     public CassiniProvider() {
     }
 
-    static SQLiteQueryBuilder listingsQueryBuilder, agentsQueryBuilder;
+    static SQLiteQueryBuilder listingsQueryBuilder, listingDetailsQueryBuilder, agentsQueryBuilder;
 
     static {
         listingsQueryBuilder = new SQLiteQueryBuilder();
         listingsQueryBuilder.setTables(CassiniContract.PropertyEntry.TABLE_NAME + " LEFT JOIN " + CassiniContract.ImageEntry.TABLE_NAME + " ON " +
+                CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + CassiniContract.ImageEntry.C_OWNER_ID);
+    }
+
+    static {
+        listingDetailsQueryBuilder = new SQLiteQueryBuilder();
+        listingDetailsQueryBuilder.setTables(CassiniContract.AgentEntry.TABLE_NAME + " , " + CassiniContract.PropertyEntry.TABLE_NAME + " LEFT JOIN " + CassiniContract.ImageEntry.TABLE_NAME + " ON " +
                 CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + CassiniContract.ImageEntry.C_OWNER_ID);
     }
 
@@ -102,11 +108,15 @@ public class CassiniProvider extends ContentProvider {
             case AGENTS:
                 return agentsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
             case PROPERTIES:
-                return listingsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, selection, selectionArgs, CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID, null, sortOrder);
+                return listingsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, selection,
+                        selectionArgs, CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID, null, sortOrder);
             case PROPERTY:
-                return listingsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + ContentUris.parseId(uri), selectionArgs, CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID, null, sortOrder);
+                return listingDetailsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
+                        CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + ContentUris.parseId(uri),
+                        selectionArgs, CassiniContract.ImageEntry.C_URL, null, sortOrder);
             case IMAGES_OWNER:
-                return dbHelper.getReadableDatabase().query(CassiniContract.ImageEntry.TABLE_NAME, projection, CassiniContract.ImageEntry.C_OWNER_ID + "=" + ContentUris.parseId(uri), selectionArgs, null, null, sortOrder);
+                return dbHelper.getReadableDatabase().query(CassiniContract.ImageEntry.TABLE_NAME, projection,
+                        CassiniContract.ImageEntry.C_OWNER_ID + "=" + ContentUris.parseId(uri), selectionArgs, null, null, sortOrder);
             default:
                 return null;
         }

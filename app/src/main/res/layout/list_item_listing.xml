@@ -13,12 +13,81 @@
             android:layout_height="@dimen/ca_listing_image_height"
             android:id="@+id/imageView"
             android:scaleType="centerCrop" />
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ca_gradient_flipped"
+            android:layout_gravity="bottom">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="16dp"
+                android:id="@+id/beds"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageView11"
+                    android:src="@drawable/ic_maps_hotel"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="4"
+                    android:id="@+id/textView15"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/ca_subtitle_faded"
+                    android:layout_margin="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_alignParentLeft="false"
+                android:layout_marginLeft="132dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="16dp"
+                android:id="@+id/showers"
+                android:layout_toRightOf="@+id/beds"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/imageView9"
+                    android:src="@drawable/ic_shower_white"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="4"
+                    android:id="@+id/textView8"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/ca_subtitle_faded"
+                    android:layout_margin="2dp" />
+            </LinearLayout>
+        </RelativeLayout>
     </FrameLayout>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/ca_content_padding" >
+        android:paddingLeft="@dimen/ca_content_padding">
 
         <LinearLayout
             android:orientation="vertical"
@@ -32,12 +101,12 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="@dimen/ca_content_padding" >
+                android:layout_marginBottom="2dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="The Alibi"
                     android:id="@+id/textView10"
                     android:textColor="@color/ca_detail_title"
@@ -61,19 +130,19 @@
                         android:elevation="2dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="6dp" >
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp" >
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Ksh. 65,000"
                             android:id="@+id/textView11"
                             android:textColor="@color/ca_detail_sub_title"
                             android:layout_alignParentRight="false"
                             android:layout_toLeftOf="@+id/textView16"
-                            android:layout_centerVertical="true" />
+                            android:layout_centerVertical="true"
+                            android:textSize="@dimen/ca_size_val" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -84,7 +153,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignBottom="@+id/textView11"
                             android:textColor="@color/ca_title_white_faded"
-                            android:layout_gravity="bottom" />
+                            android:layout_gravity="bottom"
+                            android:textSize="@dimen/ca_small" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -96,8 +166,8 @@
                 android:gravity="center_vertical" >
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:id="@+id/imageView8"
                     android:layout_alignParentLeft="true"
                     android:src="@drawable/ic_communication_location_on_dark"
@@ -107,7 +177,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="127 Street Kenyatta Avenue"
                     android:id="@+id/textView17"
                     android:textColor="@color/ca_title_white_faded"
@@ -122,8 +192,8 @@
                 android:gravity="center_vertical" >
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:id="@+id/imageView10"
                     android:layout_alignParentLeft="true"
                     android:src="@drawable/ic_communication_phone"
@@ -132,7 +202,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="072568552"
                     android:id="@+id/textView18"
                     android:textColor="@color/ca_title_white_faded"

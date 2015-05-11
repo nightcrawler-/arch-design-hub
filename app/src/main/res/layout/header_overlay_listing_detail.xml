@@ -5,18 +5,34 @@
     android:gravity="bottom"
     android:id="@+id/overlay">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/ca_black_transluscent">
 
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/imageViewGallery"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/ca_content_padding"
+            android:src="@drawable/ic_action_picture"
+            android:scaleType="fitXY" />
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            android:id="@+id/beds"
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:layout_width="30dp"
@@ -39,8 +55,15 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_margin="8dp">
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_alignParentLeft="false"
+            android:layout_marginLeft="132dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            android:id="@+id/showers"
+            android:layout_toRightOf="@+id/beds"
+            android:layout_centerVertical="true">
 
             <ImageView
                 android:layout_width="30dp"
@@ -59,6 +82,6 @@
                 android:textColor="@color/ca_subtitle_faded"
                 android:layout_margin="2dp" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

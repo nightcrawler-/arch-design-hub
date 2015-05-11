@@ -48,7 +48,9 @@ public class ListingFragment extends Fragment implements android.support.v4.app.
             CassiniContract.PropertyEntry.C_LOCATION,
             CassiniContract.PropertyEntry.C_VALUE,
             CassiniContract.PropertyEntry.C_INTENT,
-            CassiniContract.PropertyEntry.C_TEL
+            CassiniContract.PropertyEntry.C_TEL,
+            CassiniContract.PropertyEntry.C_BATHROOMS,
+            CassiniContract.PropertyEntry.C_BEDROOMS
 
 
     };
@@ -173,6 +175,8 @@ public class ListingFragment extends Fragment implements android.support.v4.app.
                 holder.tel = (TextView) convertView.findViewById(R.id.textView18);
                 holder.value = (TextView) convertView.findViewById(R.id.textView11);
                 holder.intentLabel = (TextView) convertView.findViewById(R.id.textView16);
+                holder.beds = (TextView) convertView.findViewById(R.id.textView15);
+                holder.showers = (TextView) convertView.findViewById(R.id.textView8);
 
                 Utils.applyFonts(convertView, App.getRobotoSlabLight());
 
@@ -194,6 +198,9 @@ public class ListingFragment extends Fragment implements android.support.v4.app.
             holder.location.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_LOCATION)));
             holder.tel.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
             holder.value.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE)));
+            holder.beds.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
+            holder.showers.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
+
             imageLoader.displayImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView, options);
 
 
@@ -208,7 +215,7 @@ public class ListingFragment extends Fragment implements android.support.v4.app.
 
         private class ViewHolder {
             ImageView imageView;
-            TextView title, location, tel, value, intentLabel;
+            TextView title, location, tel, value, intentLabel, showers, beds;
             View bottomPadding;
         }
 

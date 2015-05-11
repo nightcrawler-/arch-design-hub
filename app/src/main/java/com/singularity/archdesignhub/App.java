@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.multidex.MultiDexApplication;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.singularity.archdesignhub.backbone.GcmRegService;
+import com.singularity.archdesignhub.data.SyncIntentService;
+import com.singularity.archdesignhub.utils.Utils;
 
 /**
  * Created by Frederick on 4/21/2015.
@@ -76,12 +81,32 @@ public class App extends MultiDexApplication {
         super.onCreate();
         context = this;
         initUIL();
+        registerGCM(this);
+
+
+        //temporary for auto sync
+        if (Utils.isDataFetched(this)) {
+            SyncIntentService.startActionFetch(this);
+
+        }
     }
 
     private void initUIL() {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .build();
         ImageLoader.getInstance().init(config);
+    }
+
+    private void firstRun() {
+
+    }
+
+    public static synchronized void registerGCM(Context context) {
+        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS && !Utils.isGcmRegistered(context))
+            GcmRegService.register(context);
+        else
+            Utils.setGcmRegistered(context, "Play Services Missing");
+
     }
 
 

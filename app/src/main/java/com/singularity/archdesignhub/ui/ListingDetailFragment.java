@@ -2,6 +2,7 @@ package com.singularity.archdesignhub.ui;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,15 +48,17 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
 
     private static DisplayImageOptions options;
     protected static ImageLoader imageLoader = ImageLoader.getInstance();
+
     private static final String[] PROPERTY_COLUMNS = {
             CassiniContract.ImageEntry.C_URL,
+            CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_NAME,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_NAME,
-            CassiniContract.PropertyEntry.C_LOCATION,
-            CassiniContract.PropertyEntry.C_TEL,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_LOCATION,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TEL,
             CassiniContract.PropertyEntry.C_AGENT_ID,
             CassiniContract.PropertyEntry.C_BATHROOMS,
             CassiniContract.PropertyEntry.C_BEDROOMS,
-            CassiniContract.PropertyEntry.C_DESCRIPTION,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_DESCRIPTION,
             CassiniContract.PropertyEntry.C_INTENT,
             CassiniContract.PropertyEntry.C_VALUE
 
@@ -96,8 +99,6 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
         View view = mFadingHelper.createView(inflater);
         Utils.applyFonts(view, App.getRobotoSlabLight());
 
-
-
         image = (ImageView) view.findViewById(R.id.imageViewDetail);
 
         propertyName = (TextView) view.findViewById(R.id.textView5);
@@ -117,6 +118,16 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
         MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        ImageView openGallery = (ImageView) view.findViewById(R.id.imageViewGallery);
+        openGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), GalleryActivity.class);
+                intent.putExtra(CassiniContract.PropertyEntry.C_ID, propertyId);
+                startActivity(intent);
+            }
+        });
 
 
         return view;
@@ -178,8 +189,15 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
     private void populateHolders(Cursor data) {
         if (data.getPosition() == -1)
             data.moveToPosition(0);
+
+
+        String[] columns = data.getColumnNames();
+        for (int i = 0; i < columns.length; i++) {
+            Log.i(TAG, "columns - " + columns[i]);
+
+        }
         propertyName.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
-        agentName.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_AGENT_ID)));
+        agentName.setText(data.getString(1));
         agentNumber.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
         bathroms.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
         beds.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));

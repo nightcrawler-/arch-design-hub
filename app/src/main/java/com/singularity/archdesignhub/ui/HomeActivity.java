@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.singularity.archdesignhub.R;
 import com.singularity.archdesignhub.data.SyncIntentService;
+import com.singularity.archdesignhub.utils.Utils;
 
 
 public class HomeActivity extends ActionBarActivity
@@ -89,6 +90,12 @@ public class HomeActivity extends ActionBarActivity
         getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_archdesignhub, null));
         setContentView(R.layout.activity_home);
 
+
+        if (!Utils.isLoginDone(this)) {
+            startActivity(new Intent(this, LoginSelectionActivity.class));
+            finish();
+        }
+
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -113,7 +120,7 @@ public class HomeActivity extends ActionBarActivity
                 current = AgentsFragment.newInstance(position);
                 break;
             default:
-                current = ListingFragment.newInstance(position);
+                current = new BlankFragment();
 
         }
         FragmentManager fragmentManager = getSupportFragmentManager();

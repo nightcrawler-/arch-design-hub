@@ -9,10 +9,13 @@
     <style name="AppTheme" parent="Theme.Archdesignhub">
         <item name="android:actionBarStyle">@style/Widget.ActionBar</item>
         <item name="actionBarStyle">@style/Widget.ActionBar</item>
+
     </style>
 
     <style name="AppTheme2" parent="Theme.Archdesignhub">
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+        <item name="android:activatedBackgroundIndicator">@drawable/activate_bg</item>
+
     </style>
 
     <style name="ActionBarTheme" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
