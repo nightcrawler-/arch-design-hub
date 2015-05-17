@@ -114,10 +114,19 @@ public class HomeActivity extends ActionBarActivity
         Fragment current = null;
         switch (position) {
             case 0:
-                current = ListingFragment.newInstance(position);
+                current = ListingsFragment.newInstance(position);
                 break;
             case 1:
                 current = AgentsFragment.newInstance(position);
+                break;
+            case 2:
+                current = EventsFragment.newInstance();
+                break;
+            case 3:
+                current = CommentsFragment.newInstance();
+                break;
+            case 4:
+                current = ContactsFragment.newInstance();
                 break;
             default:
                 current = new BlankFragment();
@@ -141,6 +150,12 @@ public class HomeActivity extends ActionBarActivity
             case 3:
                 mTitle = getString(R.string.title_section3);
                 break;
+            case 4:
+                mTitle = getString(R.string.title_section4);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section5);
+                break;
         }
         getSupportActionBar().setTitle(mTitle);
 
@@ -148,7 +163,7 @@ public class HomeActivity extends ActionBarActivity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getSupportActionBar();
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);

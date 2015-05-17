@@ -4,6 +4,8 @@ import android.content.ContentValues;
 
 import com.singularity.archdesignhub.backend.entities.agentApi.model.Agent;
 import com.singularity.archdesignhub.backend.entities.commentApi.model.Comment;
+import com.singularity.archdesignhub.backend.entities.contactApi.model.Contact;
+import com.singularity.archdesignhub.backend.entities.eventApi.model.Event;
 import com.singularity.archdesignhub.backend.entities.imageApi.model.Image;
 import com.singularity.archdesignhub.backend.entities.propertyApi.model.Property;
 import com.singularity.archdesignhub.backend.entities.userApi.model.User;
@@ -30,14 +32,6 @@ public class Backbone extends BackboneBase {
         return backbone;
     }
 
-    public ContentValues[] getImages() throws IOException {
-        List<Image> images = imageApi.list().execute().getItems();
-        ContentValues[] values = new ContentValues[images.size()];
-        for (Image image : images)
-            values[images.indexOf(image)] = getImageContentValues(image);
-
-        return values;
-    }
 
     public User insert(User user) throws IOException {
         return userApi.insert(user).execute();
@@ -53,21 +47,81 @@ public class Backbone extends BackboneBase {
         return userApi.get(user.getId()).execute();
     }
 
+    public Comment publishComment(Comment comment) throws IOException {
+        return commentApi.insert(comment).execute();
+    }
+
+    public ContentValues[] getImages() throws IOException {
+        List<Image> images = imageApi.list().execute().getItems();
+        if (images != null) {
+            ContentValues[] values = new ContentValues[images.size()];
+            for (Image image : images)
+                values[images.indexOf(image)] = getImageContentValues(image);
+
+            return values;
+        }
+        return null;
+
+    }
+
     public ContentValues[] getAgents() throws IOException {
         List<Agent> agents = agentApi.list().execute().getItems();
-        ContentValues values[] = new ContentValues[agents.size()];
-        for (Agent agent : agents)
-            values[agents.indexOf(agent)] = getAgentContentValues(agent);
-        return values;
+        if (agents != null) {
+            ContentValues values[] = new ContentValues[agents.size()];
+            for (Agent agent : agents)
+                values[agents.indexOf(agent)] = getAgentContentValues(agent);
+            return values;
+        }
+        return null;
+
     }
 
 
     public ContentValues[] getPropertyListings() throws IOException {
         List<Property> properties = propertyApi.list().execute().getItems();
-        ContentValues[] listings = new ContentValues[properties.size()];
-        for (Property property : properties)
-            listings[properties.indexOf(property)] = getPropertyContentValues(property);
-        return listings;
+        if (properties != null) {
+            ContentValues[] listings = new ContentValues[properties.size()];
+            for (Property property : properties)
+                listings[properties.indexOf(property)] = getPropertyContentValues(property);
+            return listings;
+        }
+        return null;
+
+    }
+
+    public ContentValues[] getEvents() throws IOException {
+        List<Event> events = eventApi.list().execute().getItems();
+        if (events != null) {
+            ContentValues[] values = new ContentValues[events.size()];
+            for (Event event : events)
+                values[events.indexOf(event)] = getEventContentValues(event);
+            return values;
+        }
+        return null;
+
+    }
+
+    public ContentValues[] getComments() throws IOException {
+        List<Comment> comments = commentApi.list().execute().getItems();
+        if (comments != null) {
+            ContentValues[] values = new ContentValues[comments.size()];
+            for (Comment comment : comments)
+                values[comments.indexOf(comment)] = getCommentsContentValues(comment);
+            return values;
+        }
+        return null;
+    }
+
+    public ContentValues[] getContacts() throws IOException {
+        List<Contact> contacts = contactApi.list().execute().getItems();
+        if (contacts != null) {
+            ContentValues[] values = new ContentValues[contacts.size()];
+            for (Contact contact : contacts) {
+                values[contacts.indexOf(contact)] = getContactContentValues(contact);
+            }
+            return values;
+        }
+        return null;
     }
 
     private ContentValues getAgentContentValues(Agent agent) {
@@ -118,10 +172,41 @@ public class Backbone extends BackboneBase {
     private ContentValues getCommentsContentValues(Comment comment) {
         ContentValues values = new ContentValues();
         values.put(CassiniContract.CommentEntry.C_ID, comment.getId());
-        values.put(CassiniContract.CommentEntry.C_COMMENT, comment.getDetail());
+        values.put(CassiniContract.CommentEntry.C_COMMENT, comment.getContent());
         values.put(CassiniContract.CommentEntry.C_OWNER_ID, comment.getOwnerId());
+        values.put(CassiniContract.CommentEntry.C_TIME, comment.getTime());
+        values.put(CassiniContract.CommentEntry.C_RESPONSE_TIME, comment.getReplyTime());
+        values.put(CassiniContract.CommentEntry.C_RESPONSE, comment.getResponse());
+        values.put(CassiniContract.CommentEntry.C_RESPONSE_OWNER, comment.getResponderName());
+        values.put(CassiniContract.CommentEntry.C_OWNER_NAME, comment.getOwnerName());
+        values.put(CassiniContract.CommentEntry.C_OWNER_PIC, comment.getOwnerUrl());
+        return values;
+    }
 
+    private ContentValues getEventContentValues(Event event) {
+        ContentValues values = new ContentValues();
+        values.put(CassiniContract.EventEntry.C_ID, event.getId());
+        values.put(CassiniContract.EventEntry.C_DESCRIPTION, event.getDescription());
+        values.put(CassiniContract.EventEntry.C_LIKES, event.getLikes());
+        values.put(CassiniContract.EventEntry.C_TIME, event.getTime());
+        values.put(CassiniContract.EventEntry.C_TITLE, event.getTitle());
+        values.put(CassiniContract.EventEntry.C_LOCATION, event.getLocation());
+        values.put(CassiniContract.EventEntry.C_LATT, event.getLatt());
+        values.put(CassiniContract.EventEntry.C_LONG, event.getLongi());
 
+        return values;
+    }
+
+    private ContentValues getContactContentValues(Contact contact) {
+        ContentValues values = new ContentValues();
+        values.put(CassiniContract.ContactEntry.C_ID, contact.getId());
+        values.put(CassiniContract.ContactEntry.C_ADDRESS, contact.getAddress());
+        values.put(CassiniContract.ContactEntry.C_EMAIL, contact.getEmail());
+        values.put(CassiniContract.ContactEntry.C_LATT, contact.getLatt());
+        values.put(CassiniContract.ContactEntry.C_LONG, contact.getLongi());
+        values.put(CassiniContract.ContactEntry.C_PHONE, contact.getPhone());
+        values.put(CassiniContract.ContactEntry.C_TITLE, contact.getName());
+        values.put(CassiniContract.ContactEntry.C_WEBSITE, contact.getWebsite());
         return values;
     }
 

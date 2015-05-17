@@ -1,1 +1,1 @@
-include ':app', ':backend', ':fadingActionBar'
+include ':app', ':backend', ':fadingActionBar', ':circularimageview'

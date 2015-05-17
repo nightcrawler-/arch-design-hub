@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridView
+    <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,8 +12,9 @@
         android:drawSelectorOnTop="false"
         android:fadingEdge="none"
         android:scrollbars="none"
+        android:dividerHeight="1dp"
         android:numColumns="1"
-        android:scrollingCache="false"></GridView>
+        android:scrollingCache="false"></ListView>
 
     <com.melnykov.fab.FloatingActionButton
         android:id="@+id/fab"
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_communication_call_fab" />
+        android:src="@drawable/ic_communication_call_fab"
+        android:visibility="gone" />
 </FrameLayout>
 

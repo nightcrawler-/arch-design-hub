@@ -129,12 +129,16 @@ public class AgentEndpoint {
             name = "list",
             path = "agent",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<Agent> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Agent> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit, @Nullable @Named("oldest") Long oldest) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
         Query<Agent> query = ofy().load().type(Agent.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
+
+        if (oldest != null)
+            query.filter("time >", oldest);
+
         QueryResultIterator<Agent> queryIterator = query.iterator();
         List<Agent> agentList = new ArrayList<Agent>(limit);
         while (queryIterator.hasNext()) {

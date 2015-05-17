@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
+
+    <com.pkmmte.view.CircularImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/caplan"
+        android:id="@+id/imageView17"
+        app:civ_border="true"
+        app:civ_borderColor="#FFFFFF"
+        app:civ_borderWidth="1.5dp"
+        app:civ_shadow="true"
+        android:layout_margin="6dp" />
+        <!--
+        app:border="true"
+        app:border_color="#FFFFFF"
+        app:border_width="4dp"
+        app:shadow="true" -->
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imageView17"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="User101"
+                android:id="@+id/textView22"
+                android:textColor="@color/ca_special_red"
+                android:layout_alignParentLeft="true" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/textView22">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imageView21"
+                    android:src="@drawable/ic_device_access_time_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="3m"
+                    android:id="@+id/textView26"
+                    android:textSize="@dimen/ca_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="A summary of this particular event. Concise. Or just make it long enough to accomodate the entire description, either way. now this is turning out to be a long one"
+            android:id="@+id/textView23"
+            android:textColor="@color/ca_detail_sub_title" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="12dp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/layoutReply">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:background="@color/ca_special_red"
+                android:layout_marginRight="10dp"></LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="archdesign hub replied"
+                    android:id="@+id/textView24"
+                    android:textColor="@color/ca_subtitle_faded"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="@dimen/ca_small" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_below="@+id/textView24"
+                    android:id="@+id/linearLayout">
+
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:id="@+id/imageView19"
+                        android:src="@drawable/ic_device_access_time_gray" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="3m"
+                        android:id="@+id/textView25"
+                        android:textSize="@dimen/ca_small" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="A summary of this particular event. Concise. Or just make it long enough to accomodate the entire description, either way. now this is turning out to be a long one"
+                    android:id="@+id/textView27"
+                    android:textColor="@color/ca_title_white_faded"
+                    android:layout_below="@+id/linearLayout" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

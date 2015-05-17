@@ -2,6 +2,7 @@ package com.singularity.archdesignhub.data;
 
 import android.app.IntentService;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -48,16 +49,23 @@ public class SyncIntentService extends IntentService {
     private void handleActionFetch() {
         int exceptionCount = 0;
         try {
-            int num = mContentResolver.bulkInsert(CassiniContract.PropertyEntry.CONTENT_URI, Backbone.getInstance().getPropertyListings());
-            Log.i(TAG, "inserted - " + num);
+
+            ContentValues[] listings = Backbone.getInstance().getPropertyListings();
+            int num = 0;
+            if (listings != null)
+                num = mContentResolver.bulkInsert(CassiniContract.PropertyEntry.CONTENT_URI, listings);
+            Log.i(TAG, "inserted listings - " + num);
 
         } catch (IOException e) {
             e.printStackTrace();
             exceptionCount++;
         }
         try {
-            int num = mContentResolver.bulkInsert(CassiniContract.AgentEntry.CONTENT_URI, Backbone.getInstance().getAgents());
-            Log.i(TAG, "inserted - " + num);
+            ContentValues[] agents = Backbone.getInstance().getAgents();
+            int num = 0;
+            if (agents != null)
+                num = mContentResolver.bulkInsert(CassiniContract.AgentEntry.CONTENT_URI, agents);
+            Log.i(TAG, "inserted agents - " + num);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,14 +73,57 @@ public class SyncIntentService extends IntentService {
         }
 
         try {
-            int num = mContentResolver.bulkInsert(CassiniContract.ImageEntry.CONTENT_URI, Backbone.getInstance().getImages());
-            Log.i(TAG, "inserted - " + num);
+            ContentValues[] images = Backbone.getInstance().getImages();
+            int num = 0;
+            if (images != null)
+                num = mContentResolver.bulkInsert(CassiniContract.ImageEntry.CONTENT_URI, images);
+            Log.i(TAG, "inserted images - " + num);
 
         } catch (IOException e) {
             e.printStackTrace();
             exceptionCount++;
         }
 
+        try {
+            ContentValues[] events
+                    = Backbone.getInstance().getEvents();
+            int num = 0;
+            if (events != null)
+                num = mContentResolver.bulkInsert(CassiniContract.EventEntry.CONTENT_URI, events);
+            Log.i(TAG, "inserted events - " + num);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            exceptionCount++;
+        }
+
+        try {
+            ContentValues[] comments = Backbone.getInstance().getComments();
+            int num = 0;
+            if (comments != null)
+                num = mContentResolver.bulkInsert(CassiniContract.CommentEntry.CONTENT_URI, comments);
+            Log.i(TAG, "inserted comments - " + num);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            exceptionCount++;
+
+        }
+
+        try {
+            ContentValues[] contacts = Backbone.getInstance().getContacts();
+            int num = 0;
+            if (contacts != null)
+                num = mContentResolver.bulkInsert(CassiniContract.ContactEntry.CONTENT_URI, contacts);
+            Log.i(TAG, "inserted comments - " + num);
+        } catch (IOException e) {
+            e.printStackTrace();
+            exceptionCount++;
+
+        }
+
+
+        //get rid of later
         Utils.setDataFetched(getBaseContext(), (exceptionCount == 0));
 
 

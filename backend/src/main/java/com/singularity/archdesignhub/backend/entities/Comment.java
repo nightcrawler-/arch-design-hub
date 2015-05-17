@@ -13,10 +13,17 @@ public class Comment {
     private Long id;
 
     private String ownerId;
-    private String detail, type, reply;
-    private long time;
+    private String content, response, ownerName, ownerUrl, responderName;
+    private long time, replyTime;
     private int upvote, downvote;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getOwnerId() {
         return ownerId;
@@ -26,12 +33,60 @@ public class Comment {
         this.ownerId = ownerId;
     }
 
-    public String getReply() {
-        return reply;
+    public String getContent() {
+        return content;
     }
 
-    public void setReply(String reply) {
-        this.reply = reply;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getOwnerUrl() {
+        return ownerUrl;
+    }
+
+    public void setOwnerUrl(String ownerUrl) {
+        this.ownerUrl = ownerUrl;
+    }
+
+    public String getResponderName() {
+        return responderName;
+    }
+
+    public void setResponderName(String responderName) {
+        this.responderName = responderName;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public long getReplyTime() {
+        return replyTime;
+    }
+
+    public void setReplyTime(long replyTime) {
+        this.replyTime = replyTime;
     }
 
     public int getUpvote() {
@@ -48,37 +103,5 @@ public class Comment {
 
     public void setDownvote(int downvote) {
         this.downvote = downvote;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
     }
 }

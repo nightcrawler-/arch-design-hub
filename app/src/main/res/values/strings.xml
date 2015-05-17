@@ -9,7 +9,8 @@
     <string name="title_section1">Listings</string>
     <string name="title_section2">Agents</string>
     <string name="title_section3">Events</string>
-    <string name="title_section4">Contacts</string>
+    <string name="title_section4">Fan Wall</string>
+    <string name="title_section5">Contacts</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -21,5 +22,7 @@
     <string name="password">Password</string>
     <string name="app_id">769306276517701</string>
     <string name="facebook_app_name">Archdesign Hub</string>
+    <string name="title_activity_post_comment">Comment</string>
+    <string name="comment_hint">What do you think?</string>
 
 </resources>

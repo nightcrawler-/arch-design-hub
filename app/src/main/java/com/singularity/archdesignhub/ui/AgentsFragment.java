@@ -1,6 +1,7 @@
 package com.singularity.archdesignhub.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,16 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.singularity.archdesignhub.App;
 import com.singularity.archdesignhub.R;
 import com.singularity.archdesignhub.data.CassiniContract;
+import com.singularity.archdesignhub.utils.DefaultImageLoader;
 import com.singularity.archdesignhub.utils.Utils;
 
 
@@ -33,10 +36,13 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
 
     public static final String TAG = AgentsFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private GridView list;
-    private ListingAdapter adapter;
+    private ListView list;
+    private AgentsAdapter adapter;
     private static DisplayImageOptions options;
     protected static ImageLoader imageLoader = ImageLoader.getInstance();
+    private static final int[] FAB_COLORS = {
+            R.color.gplus_color_1, R.color.gplus_color_2,
+            R.color.gplus_color_3, R.color.gplus_color_4};
 
     private static final String[] AGENTS_COLUMNS = {
             CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_NAME,
@@ -67,8 +73,8 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View parent = inflater.inflate(R.layout.fragment_agent_list,
                 container, false);
-        list = (GridView) parent.findViewById(android.R.id.list);
-        adapter = new ListingAdapter(getActivity());
+        list = (ListView) parent.findViewById(android.R.id.list);
+        adapter = new AgentsAdapter(getActivity());
         list.setAdapter(adapter);
 
         options = new DisplayImageOptions.Builder()
@@ -116,11 +122,15 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
     }
 
 
-    public static class ListingAdapter extends BaseAdapter {
+    public static class AgentsAdapter extends BaseAdapter {
         private Cursor cursor;
-        LayoutInflater inflater;
+        private LayoutInflater inflater;
+        private Context context;
+        private int i = 0;
 
-        public ListingAdapter(Context context) {
+
+        public AgentsAdapter(Context context) {
+            this.context = context;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         }
@@ -150,11 +160,16 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
                 convertView.setTag(holder);
                 holder.imageView = (ImageView) convertView.findViewById(R.id.imageView);
                 holder.name = (TextView) convertView.findViewById(R.id.textView);
-                holder.tel = (TextView) convertView.findViewById(R.id.textView2);
-                holder.email = (TextView) convertView.findViewById(R.id.textView3);
-                holder.website = (TextView) convertView.findViewById(R.id.textView14);
+                holder.tel = (TextView) convertView.findViewById(R.id.textView30);
+                holder.email = (TextView) convertView.findViewById(R.id.textView34);
+                holder.website = (TextView) convertView.findViewById(R.id.textView35);
+                holder.fab = (FloatingActionButton) convertView.findViewById(R.id.fab2);
 
-                Utils.applyFonts(convertView, App.getRobotoSlabLight());
+                holder.fab.setColorNormal(context.getResources().getColor(FAB_COLORS[i < 4 ? i++ : --i]));
+
+
+                Utils.applyFonts(convertView, App.getRobotoThin());
+                Utils.applyFonts(holder.name, App.getRobotoSlabLight());
 
                 //holder.bottomPadding = convertView.findViewById(R.id.bottomPad);
 
@@ -162,12 +177,7 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            //cursor.moveToPosition(position);
-            //hack for the padding at the bottom of the list
-//            if (position + 1 == getCount())
-//                holder.bottomPadding.setVisibility(View.VISIBLE);
-//            else
-//                holder.bottomPadding.setVisibility(View.GONE);
+
 
             cursor.moveToPosition(position);
             holder.name.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.AgentEntry.C_NAME)));
@@ -176,7 +186,17 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
             holder.email.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.AgentEntry.C_EMAIL)));
 
 
-            imageLoader.displayImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView, options);
+            holder.fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + cursor.getString(cursor.getColumnIndex(CassiniContract.AgentEntry.C_TEL))));
+                    context.startActivity(intent);
+                }
+            });
+
+
+            DefaultImageLoader.getInstance().loadImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView);
 
 
             return convertView;
@@ -191,7 +211,7 @@ public class AgentsFragment extends Fragment implements android.support.v4.app.L
         private class ViewHolder {
             ImageView imageView;
             TextView name, tel, email, website;
-            View bottomPadding;
+            FloatingActionButton fab;
         }
 
     }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/imageView17"
+        android:scaleType="centerCrop"
+        android:src="@drawable/caplan" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/imageView17"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Grand Opening Gala"
+                android:id="@+id/textView22"
+                android:textColor="@color/ca_special_red"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/imageView18" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView18"
+                android:src="@drawable/ic_action_favorite_outline_red"
+                android:layout_alignParentRight="true"
+                android:scaleType="fitCenter" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/textView22">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imageView22"
+                    android:src="@drawable/ic_action_favorite_gray"
+                    android:scaleType="fitCenter" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="22"
+                    android:id="@+id/textView27"
+                    android:textSize="@dimen/ca_small"
+                    android:layout_marginRight="6dp" />
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/imageView21"
+                    android:src="@drawable/ic_device_access_time_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="in 2 days"
+                    android:id="@+id/textView26"
+                    android:textSize="@dimen/ca_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="A summary of this particular event. Concise. Or just make it long enough to accomodate the entire description, either way. now this is turning out to be a long one"
+            android:id="@+id/textView23"
+            android:textColor="@color/ca_detail_sub_title" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -136,12 +136,16 @@ public class PropertyEndpoint {
             name = "list",
             path = "property",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<Property> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit) {
+    public CollectionResponse<Property> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit,
+                                             @Nullable @Named("oldest") Long oldest) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
         Query<Property> query = ofy().load().type(Property.class).limit(limit);
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
+        if (oldest != null)
+            query.filter("time >", oldest);
+
         QueryResultIterator<Property> queryIterator = query.iterator();
         List<Property> propertyList = new ArrayList<Property>(limit);
         while (queryIterator.hasNext()) {

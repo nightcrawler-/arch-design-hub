@@ -85,7 +85,7 @@ public class App extends MultiDexApplication {
 
 
         //temporary for auto sync
-        if (Utils.isDataFetched(this)) {
+        if (!Utils.isDataFetched(this)) {
             SyncIntentService.startActionFetch(this);
 
         }
@@ -97,9 +97,7 @@ public class App extends MultiDexApplication {
         ImageLoader.getInstance().init(config);
     }
 
-    private void firstRun() {
 
-    }
 
     public static synchronized void registerGCM(Context context) {
         if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(context) == ConnectionResult.SUCCESS && !Utils.isGcmRegistered(context))

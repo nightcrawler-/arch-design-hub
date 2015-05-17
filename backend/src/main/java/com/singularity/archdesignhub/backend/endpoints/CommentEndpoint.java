@@ -136,7 +136,8 @@ public class CommentEndpoint {
             name = "list",
             path = "comment",
             httpMethod = ApiMethod.HttpMethod.GET)
-    public CollectionResponse<Comment> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit, @Nullable @Named("ownerId") String ownerId) {
+    public CollectionResponse<Comment> list(@Nullable @Named("cursor") String cursor, @Nullable @Named("limit") Integer limit,
+                                            @Nullable @Named("ownerId") String ownerId, @Nullable @Named("oldest") Long oldest) {
         limit = limit == null ? DEFAULT_LIST_LIMIT : limit;
         Query<Comment> query = ofy().load().type(Comment.class).limit(limit);
 
@@ -146,6 +147,10 @@ public class CommentEndpoint {
         if (cursor != null) {
             query = query.startAt(Cursor.fromWebSafeString(cursor));
         }
+
+        if (oldest != null)
+            query.filter("time >", oldest);
+
         QueryResultIterator<Comment> queryIterator = query.iterator();
         List<Comment> commentList = new ArrayList<Comment>(limit);
         while (queryIterator.hasNext()) {

@@ -34,7 +34,8 @@ public class GcmRegService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
-            registerGcm();
+            String res = registerGcm();
+            Log.i("ME", "gcm res - " + res);
         }
     }
 
@@ -55,13 +56,16 @@ public class GcmRegService extends IntentService {
             String regId = gcm.register(SENDER_ID);
             msg = "Device registered, registration ID=" + regId;
 
-            //persist reg status locally
-            Utils.setGcmRegistered(this, regId);
             // You should send the registration ID to your server over HTTP,
             // so it can use GCM/HTTP or CCS to send messages to your app.
             // The request to your server should be authenticated if your app
             // is using accounts.
+
             regService.register(regId).execute();
+            //persist reg status locally
+
+            Utils.setGcmRegistered(this, regId);
+
 
         } catch (IOException ex) {
             ex.printStackTrace();

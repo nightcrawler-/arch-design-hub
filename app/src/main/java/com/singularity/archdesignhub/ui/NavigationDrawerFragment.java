@@ -18,10 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.singularity.archdesignhub.R;
+import com.singularity.archdesignhub.pojo.NavItem;
 
 
 /**
@@ -99,16 +99,20 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4)
-                }));
+//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//                getActionBar().getThemedContext(),
+//                android.R.layout.simple_list_item_activated_1,
+//                android.R.id.text1,
+//                new String[]{
+//                        getString(R.string.title_section1),
+//                        getString(R.string.title_section2),
+//                        getString(R.string.title_section3),
+//                        getString(R.string.title_section4),
+//                        getString(R.string.title_section5)
+//                }));
+
+        mDrawerListView.setAdapter(new NavDrawerAdapter(getActivity(), getNavItems()));
+
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -277,5 +281,16 @@ public class NavigationDrawerFragment extends Fragment {
          * Called when an item in the navigation drawer is selected.
          */
         void onNavigationDrawerItemSelected(int position);
+    }
+
+    private NavItem[] getNavItems() {
+        NavItem[] items = {
+                new NavItem(getString(R.string.title_section1), R.drawable.ca_nav_ic_action_listings),
+                new NavItem(getString(R.string.title_section2), R.drawable.ca_nav_ic_action_agents),
+                new NavItem(getString(R.string.title_section3), R.drawable.ca_nav_ic_action_event),
+                new NavItem(getString(R.string.title_section4), R.drawable.ca_nav_ic_action_fan_wall),
+                new NavItem(getString(R.string.title_section5), R.drawable.ca_nav_ic_communication_quick_contacts_dialer)};
+
+        return items;
     }
 }

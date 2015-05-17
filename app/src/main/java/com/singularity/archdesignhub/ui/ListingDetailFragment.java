@@ -26,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.manuelpeinado.fadingactionbar.FadingActionBarHelper;
+import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -33,6 +34,8 @@ import com.singularity.archdesignhub.App;
 import com.singularity.archdesignhub.R;
 import com.singularity.archdesignhub.data.CassiniContract;
 import com.singularity.archdesignhub.utils.Utils;
+
+import java.text.NumberFormat;
 
 
 /**
@@ -45,6 +48,7 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
     private TextView propertyName, price, perMonth, agentName, agentNumber, details, beds, bathroms;
     private ImageView image;
     private GoogleMap map;
+    private FloatingActionButton fab;
 
     private static DisplayImageOptions options;
     protected static ImageLoader imageLoader = ImageLoader.getInstance();
@@ -109,6 +113,7 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
         details = (TextView) view.findViewById(R.id.textView9);
         beds = (TextView) view.findViewById(R.id.textView15);
         bathroms = (TextView) view.findViewById(R.id.textView8);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab2);
 
         mArguments = getArguments();
 
@@ -186,25 +191,36 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
 
     }
 
-    private void populateHolders(Cursor data) {
-        if (data.getPosition() == -1)
-            data.moveToPosition(0);
+    private void populateHolders(final Cursor data) {
+        if (data.getCount() > 0) {
 
+            if (data.getPosition() == -1)
+                data.moveToPosition(0);
 
-        String[] columns = data.getColumnNames();
-        for (int i = 0; i < columns.length; i++) {
-            Log.i(TAG, "columns - " + columns[i]);
+            String[] columns = data.getColumnNames();
+            for (int i = 0; i < columns.length; i++) {
+                Log.i(TAG, "columns - " + columns[i]);
+
+            }
+            propertyName.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
+            agentName.setText(data.getString(1));
+            agentNumber.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
+            bathroms.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
+            beds.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
+            details.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_DESCRIPTION)));
+            price.setText("KES. " +NumberFormat.getInstance().format(data.getInt(data.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
+            imageLoader.displayImage(data.getString(data.getColumnIndex(CassiniContract.ImageEntry.C_URL)), image, options);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL);
+                    intent.setData(Uri.parse("tel:" + data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL))));
+                    startActivity(intent);
+                }
+            });
 
         }
-        propertyName.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
-        agentName.setText(data.getString(1));
-        agentNumber.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
-        bathroms.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
-        beds.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
-        details.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_DESCRIPTION)));
-        price.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE)));
-        imageLoader.displayImage(data.getString(data.getColumnIndex(CassiniContract.ImageEntry.C_URL)), image, options);
-
     }
 
     @Override

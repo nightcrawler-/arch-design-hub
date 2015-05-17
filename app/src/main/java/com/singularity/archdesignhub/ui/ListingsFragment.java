@@ -26,15 +26,18 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.singularity.archdesignhub.App;
 import com.singularity.archdesignhub.R;
 import com.singularity.archdesignhub.data.CassiniContract;
+import com.singularity.archdesignhub.utils.DefaultImageLoader;
 import com.singularity.archdesignhub.utils.Utils;
+
+import java.text.NumberFormat;
 
 
 /**
  * Created by Frederick on 4/23/2015.
  */
-public class ListingFragment extends Fragment implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
+public class ListingsFragment extends Fragment implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static final String TAG = ListingFragment.class.getSimpleName();
+    public static final String TAG = ListingsFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private ListView list;
     private ListingAdapter adapter;
@@ -56,15 +59,15 @@ public class ListingFragment extends Fragment implements android.support.v4.app.
     };
     private int LISTINGS_LOADER = 0;
 
-    public ListingFragment() {
+    public ListingsFragment() {
     }
 
     /**
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static ListingFragment newInstance(int sectionNumber) {
-        ListingFragment fragment = new ListingFragment();
+    public static ListingsFragment newInstance(int sectionNumber) {
+        ListingsFragment fragment = new ListingsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
@@ -197,11 +200,11 @@ public class ListingFragment extends Fragment implements android.support.v4.app.
             holder.title.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
             holder.location.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_LOCATION)));
             holder.tel.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
-            holder.value.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE)));
+            holder.value.setText("KES. " + NumberFormat.getInstance().format(cursor.getInt(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
             holder.beds.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
             holder.showers.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
 
-            imageLoader.displayImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView, options);
+            DefaultImageLoader.getInstance().loadImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView);
 
 
             return convertView;

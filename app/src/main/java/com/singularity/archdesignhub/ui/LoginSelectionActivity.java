@@ -12,6 +12,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -23,6 +25,9 @@ import com.google.android.gms.plus.model.people.Person;
 import com.singularity.archdesignhub.R;
 import com.singularity.archdesignhub.backend.entities.userApi.model.User;
 import com.singularity.archdesignhub.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -169,7 +174,7 @@ public class LoginSelectionActivity extends Activity {
 
 
     private void performFbLogin() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
 
     }
 
@@ -179,22 +184,54 @@ public class LoginSelectionActivity extends Activity {
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             private ProfileTracker mProfileTracker;
+            private GraphRequest request;
+            private User user = new User();
+
 
             @Override
             public void onSuccess(LoginResult loginResult) {
+                //one of two, hackity hack for getting both email and profile pic url - both of which apparently are accessed in only one of these two ways
+                request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                try {
+                                    handleRepsponse(response);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    //the next async for getting profile pic only proceeds if email is non-empty, so a value has to be set
+                                    user.setEmail("unavailable");
+                                }
+                            }
+
+                            private void handleRepsponse(GraphResponse response) throws JSONException {
+                                JSONObject obj = response.getJSONObject();
+                                user.setEmail(obj.getString("email"));
+                                //ensures we call the logintask if the other user fields have been populated, this call is returned async
+                                if (user.getId() != null)
+                                    new LoginTask(com.singularity.archdesignhub.auth.LoginManager.getInstance(getBaseContext())).execute(user);
+
+
+                            }
+                        });
+                request.executeAsync();
+
 
                 mProfileTracker = new ProfileTracker() {
                     @Override
                     protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
-                        Log.v("facebook - profile", profile2.getFirstName());
                         mProfileTracker.stopTracking();
-                        User user = new User();
                         user.setId(profile2.getId());
                         user.setName(profile2.getName());
                         user.setImage(profile2.getProfilePictureUri(100, 100).toString());
                         user.setExtra(profile2.getLinkUri().toString());
                         user.setLoginType(String.valueOf(FB_LOGIN));
-                        new LoginTask(new com.singularity.archdesignhub.auth.LoginManager(getBaseContext())).execute(user);
+                        //ensures we call the logintask if the other user fields(email) have been populated, this call is returned async
+                        if (user.getEmail() != null)
+                            new LoginTask(com.singularity.archdesignhub.auth.LoginManager.getInstance(getBaseContext())).execute(user);
                     }
                 };
                 mProfileTracker.startTracking();

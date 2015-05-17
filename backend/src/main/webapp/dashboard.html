@@ -20,17 +20,19 @@
 
     <link type="text/css" rel="stylesheet" href="/css/theme/materialadmin.css" />
 
-    <link type="text/css" rel="stylesheet" href="/css/theme/font-awesome.min.css" />
+    <!--<link type="text/css" rel="stylesheet" href="/css/theme/font-awesome.min.css" />-->
 
     <link type="text/css" rel="stylesheet" href="/css/theme/material-design-iconic-font.min.css" />
 
     <link type="text/css" rel="stylesheet" href="/css/theme/rickshaw.css" />
 
     <link type="text/css" rel="stylesheet" href="/css/theme/morris.core.css" />
-    <!--<link type="text/css" rel="stylesheet" href="/css/font-awesome.css" />-->
+
     <link type="text/css" rel="stylesheet" href="/css/theme/multi-select.css">
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="/css/theme/datepicker3.css">
 
     <link rel="stylesheet" href="css/cassini.css">
     <!-- END STYLESHEETS -->
@@ -232,31 +234,69 @@
                                 <div class="col-md-6">
                                     <div class="card card-bordered style-primary">
                                         <div class="card-head">
-                                            <div class="tools">
-                                                <div class="btn-group">
-                                                    <div class="btn-group">
-                                                        <a href="#" class="btn btn-icon-toggle dropdown-toggle" data-toggle="dropdown"><i class="md md-colorize"></i></a>
-                                                        <ul class="dropdown-menu animation-dock pull-right menu-card-styling" role="menu" style="text-align: left;"> <a class="btn btn-icon-toggle btn-refresh"><i class="md md-refresh"></i></a>
-                                                            <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
-                                                            <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <header>About</header>
+                                            <header>Comments</header>
                                         </div>
                                         <!--end .card-head -->
                                         <div class="card-body">
-                                            <p>This is a restricted access portal for the admin to directly manage the site's and app's content. While still under development some fetures may be unavailable.</p>
-
+                                            <p>Read, reply to and delete comments below</p>
                                         </div>
                                         <!--end .card-body -->
                                     </div>
+
                                     <!--end .card -->
+                                    <!-- start comments list -->
+                                    <div ng-repeat="comment in comments">
+                                        <div class="card card-underline">
+                                            <div class="card-body no-padding">
+                                                <ul class="list divider-full-bleed">
+                                                    <li class="tile">
+                                                        <a class="tile-content ink-reaction">
+                                                            <div class="tile-icon">
+                                                                <img src="{{comment.ownerUrl}}" alt="" />
+                                                            </div>
+                                                            <div class="tile-text">{{comment.ownerName}} <small>{{getRelativeTime(comment.time)}}</small>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <!--end .card-head -->
+                                            <div class="card-body">
+                                                <p>{{comment.content}}</p>
+                                                <blockquote><small>{{comment.response}}</small>
+                                                </blockquote>
+                                            </div>
+                                            <!--end .card-body -->
+                                            <div ng-show="reply" class="card-body">
+                                                <form name="formReply" class="form" role="form">
+                                                    <div class="form-group floating-label">
+                                                        <textarea rows="2" ng-model="comment.responseRaw" type="textarea" class="form-control" id="regular2" required></textarea>
+                                                        <label for="regular2">Reply</label>
+                                                    </div>
+                                                    <div class="cassini-padding col-lg-offset-3 col-md-3">
+                                                        <button ng-disabled="formReply.$invalid" ng-click="updateComment(comment)" type="button" ng-class="{'btn ink-reaction btn-floating-action btn-primary' : !loading, 'btn ink-reaction btn-floating-action disabled' : loading}"><i ng-class="{'fa fa-spinner fa-spin' : loading, 'fa fa-check' : !loading}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
+                                                        <button type="submit" ng-click="reply = false" type="button" class="btn ink-reaction btn-floating-action btn-danger"><i class="fa fa-remove"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!--end .card-body -->
+                                            <!-- start action bar-->
+                                            <div ng-hide="reply" class="card-actionbar">
+                                                <div class="card-actionbar-row">
+                                                    <a href="javascript:void(0);" class="btn btn-icon-toggle btn-danger ink-reaction"><i class="fa fa-heart"></i></a>
+                                                    <a ng-click="reply = true" href="javascript:void(0); " class="btn btn-icon-toggle btn-default ink-reaction"><i class="fa fa-reply"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end .card -->
+                                    </div>
+                                    <!-- end comments list-->
                                 </div>
                                 <!--end .col -->
-                                <!-- END INFO CARD -->
 
                                 <!-- Begin Registered Users -->
                                 <div class="col-md-6">
@@ -272,49 +312,13 @@
                                             <header>Recently Registered Users</header>
                                         </div>
                                         <div class="card-body no-padding">
-                                            <ul class="list divider-full-bleed">
-                                                <li class="tile">
-                                                    <a class="tile-content ink-reaction" href="#2">
-                                                        <div class="tile-icon">
-                                                            <img src="http://www.google.com/imgres?imgurl=http://p1cdn05.thewrap.com/images/2014/10/Lizzy-Caplan.jpg&imgrefurl=http://www.thewrap.com/lizzy-caplan-in-talks-to-join-jesse-eisenberg-dave-franco-in-now-you-see-me-2-exclusive/&h=412&w=325&tbnid=MW8Gehp9OaQVzM:&zoom=1&docid=Negr6ypxB48y_M&ei=E5hHVZi6G-Te7Abp2YHAAw&tbm=isch" alt="" />
-                                                        </div>
-                                                        <div class="tile-text">User One</div>
-                                                    </a>
-                                                    <a class="btn btn-flat ink-reaction">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </li>
+                                            <ul ng-repeat="user in users" class="list divider-full-bleed">
                                                 <li class="tile">
                                                     <a class="tile-content ink-reaction">
                                                         <div class="tile-icon">
-                                                            <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar4.jpg?1422538625" alt="" />
+                                                            <img src="{{user.image}}" alt="" />
                                                         </div>
-                                                        <div class="tile-text">Lizzy Caplan</div>
-                                                    </a>
-                                                    <a class="btn btn-flat ink-reaction">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="tile">
-                                                    <a class="tile-content ink-reaction">
-                                                        <div class="tile-icon">
-                                                            <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar11.jpg?1422538623" alt="" />
-                                                        </div>
-                                                        <div class="tile-text">Carlisle Z</div>
-                                                    </a>
-                                                    <a class="btn btn-flat ink-reaction">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="tile">
-                                                    <a class="tile-content ink-reaction">
-                                                        <div class="tile-icon">
-                                                            <img src="http://www.codecovers.eu/assets/img/modules/materialadmin/avatar7.jpg?1422538626" alt="" />
-                                                        </div>
-                                                        <div class="tile-text">Zorro Noah</div>
-                                                    </a>
-                                                    <a class="btn btn-flat ink-reaction">
-                                                        <i class="fa fa-trash"></i>
+                                                        <div class="tile-text">{{user.name}}</div>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -326,7 +330,97 @@
                                 <!-- End Registered Users -->
                             </div>
                             <!-- End of dashboard content-->
+                            <!-- BEGIN ADD EVENT -->
+                            <div ng-show="nav === 'newEvent'">
+                                <div class="col-lg-offset-3 col-md-6 col-sm-8">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form name="formEvent" class="form form-validate" novalidate="novalidate">
+                                                <div class="form-group">
+                                                    <input ng-model="event.title" type="text" class="form-control" id="regular1" required data-rule-minlength="2">
+                                                    <label for="regular1">Title</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <textarea ng-model="event.description" name="textarea1" id="textarea1" class="form-control" rows="3" placeholder=""></textarea>
+                                                    <label for="textarea1">Description</label>
+                                                </div>
+                                                <div class="form-group date" id="demo-date-format">
+                                                    <div class="input-group-content">
+                                                        <input ng-model="event.time" type="text" class="form-control" id="placeholder1" required>
+                                                        <label for="placeholder1">Date</label>
+                                                        <p class="help-block">yyyy/mm/dd</p>
+                                                    </div>
+                                                    <span class="me-hand input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="event.location" type="text" class="form-control" id="placeholder1">
+                                                    <label for="placeholder1">Location</label>
+                                                </div>
+                                                <div class=row>
+                                                    <div class="cassini-padding col-lg-offset-3 col-md-3">
+                                                        <button ng-disabled="formEvent.$invalid" ng-click="insertEvent(event)" type="button" ng-class="{'btn ink-reaction btn-floating-action btn-primary' : !loading, 'btn ink-reaction btn-floating-action disabled' : loading}"><i ng-class="{'fa fa-spinner fa-spin' : loading, 'fa fa-check' : !loading}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
+                                                        <button type="submit" ng-click="nav = 'home'" type="button" class="btn ink-reaction btn-floating-action btn-danger"><i class="fa fa-remove"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--end .card-body -->
+                                    </div>
+                                    <!--end .card -->
+                                </div>
+                                <!--end .col -->
+                                <!-- END ADD EVENT -->
+                            </div>
+                            <!-- BEGIN UPDATE CONTACT INFO -->
+                            <div ng-show="nav === 'updateContactInfo'">
+                                <div class="col-lg-offset-3 col-md-6 col-sm-8">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form name="formContactInfo" class="form form-validate" novalidate="novalidate">
+                                                <div class="form-group">
+                                                    <input ng-model="contact.name" type="text" class="form-control" id="name1" required data-rule-minlength="2">
+                                                    <label for="name1">Name</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="contact.phone" type="text" class="form-control" id="phone1" data-rule-number="true" required>
+                                                    <label for="phone1">Phone</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="contact.email" type="email" class="form-control" id="email1" required>
+                                                    <label for="email1">Email</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="contact.website" type="website" class="form-control" id="website1" required>
+                                                    <label for="website1">Website</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="contact.address" type="text" class="form-control" id="location1">
+                                                    <label for="location1">Location</label>
+                                                </div>
 
+                                                <div class=row>
+                                                    <div class="cassini-padding col-lg-offset-3 col-md-3">
+                                                        <button ng-disabled="formContactInfo.$invalid" ng-click="insertOrUpdateContact(contact)" type="button" ng-class="{'btn ink-reaction btn-floating-action btn-primary' : !loading, 'btn ink-reaction btn-floating-action disabled' : loading}"><i ng-class="{'fa fa-spinner fa-spin' : loading, 'fa fa-check' : !loading}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
+                                                        <button type="submit" ng-click="nav = 'home'" type="button" class="btn ink-reaction btn-floating-action btn-danger"><i class="fa fa-remove"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--end .card-body -->
+                                    </div>
+                                    <!--end .card -->
+                                </div>
+                                <!--end .col -->
+                                <!-- END UPDATE CONTACT INFO  -->
+                            </div>
                             <!-- BEGIN REGISTER AGENT -->
                             <div ng-show="nav === 'newAgent'">
                                 <div class="col-lg-offset-3 col-md-6 col-sm-8">
@@ -357,7 +451,6 @@
                                                 <div class=row>
                                                     <div class="cassini-padding col-lg-offset-3 col-md-3">
                                                         <button ng-disabled="formAgent.$invalid" ng-click="insertAgent(agent)" type="button" ng-class="{'btn ink-reaction btn-floating-action btn-primary' : !loading, 'btn ink-reaction btn-floating-action disabled' : loading}"><i ng-class="{'fa fa-spinner fa-spin' : loading, 'fa fa-check' : !loading}"></i>
-                                                        </button>
                                                         </button>
                                                     </div>
                                                     <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
@@ -524,8 +617,11 @@
                         <ul>
                             <li><a href="#" ng-click="nav = 'newAgent'"><span class="title">Agent</span></a>
                             </li>
-
                             <li><a href="#" ng-click="nav = 'newListing'"><span class="title">Property Listing</span></a>
+                            </li>
+                            <li><a href="#" ng-click="nav = 'newEvent'"><span class="title">Event</span></a>
+                            </li>
+                            <li><a href="#" ng-click="nav = 'updateContactInfo'"><span class="title">Contacts</span></a>
                             </li>
 
                         </ul>
@@ -569,6 +665,18 @@
                     </li>
                     <!--end /menu-li -->
                     <!-- END ROPERTY LISTINGS -->
+
+                    <!-- BEGIN MY CONTACTS -->
+                    <li>
+                        <a href="#" ng-click="nav = 'viewContacts'">
+                            <div class="gui-icon"><i class="fa fa-fax"></i>
+                            </div>
+                            <span class="title">My Contact Info</span>
+                        </a>
+
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END MY CONTACTS -->
                 </ul>
                 <!--end .main-menu -->
                 <!-- END MAIN MENU -->
@@ -614,16 +722,18 @@
     <!--<script src="/js/theme/rickshaw.min.js"></script>
     <script src="/js/theme/DemoDashboard.js"></script>
     <script src="js/theme/jquery.multi-select.js"></script>
-    <script src="js/theme/dropzone.min.js"></script>
-    <script src="js/theme/DemoFormComponents.js"></script>-->
+    <script src="js/theme/dropzone.min.js"></script>-->
+
 
     <!--Validation things -->
     <script src="js/theme/jquery.validate.min.js"></script>
     <script src="js/theme/validation-additional-methods.min.js"></script>
 
-
+    <script src="js/theme/bootstrap-datepicker.js"></script>
     <script src="/js/theme/63d0445130d69b2868a8d28c93309746.js"></script>
     <script src="/js/theme/Demo.js"></script>
+    <script src="js/theme/DemoFormComponents.js"></script>
+
 
     <!-- Angular JS Stuff-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>

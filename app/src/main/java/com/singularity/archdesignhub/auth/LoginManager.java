@@ -17,16 +17,23 @@ public class LoginManager extends BackboneBase {
     private static final String TAG = LoginManager.class.getSimpleName();
     private static final String PREF_USER_SIGNED_IN = "user_signed_in";
     private static final String PREF_SOCIAL_AUTHED = "social_authed";
-    private static final String PREF_GCM_REGISTERED = "gcm_registerd";
     private static final String PREF_GCM_REG_ID = "gcm_reg_id";
 
 
     Context context;
     SharedPreferences prefs;
+    public static LoginManager me;
 
-    public LoginManager(Context context) {
+    private LoginManager(Context context) {
         super();
         this.context = context;
+    }
+
+    public static LoginManager getInstance(Context c) {
+        if (me == null)
+            me = new LoginManager(c);
+        return me;
+
     }
 
     public boolean userSignedIn() {
@@ -34,9 +41,8 @@ public class LoginManager extends BackboneBase {
     }
 
     public boolean socialAuthed() {
-        return getPrefs().getBoolean(PREF_SOCIAL_AUTHED, false);   }
-
-
+        return getPrefs().getBoolean(PREF_SOCIAL_AUTHED, false);
+    }
 
 
     public void setUserSignedIn(boolean signedIn) {

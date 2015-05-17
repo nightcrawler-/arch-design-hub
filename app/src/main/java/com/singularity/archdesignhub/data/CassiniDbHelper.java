@@ -12,10 +12,10 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 2;
 
-    public static final String DATABASE_NAME = "cassini3.db";
+    public static final String DATABASE_NAME = "archdesign.db";
 
     // Create a table to hold properties.
-    final String SQL_CREATE_PROPERTY_TABLE = "CREATE TABLE " + CassiniContract.PropertyEntry.TABLE_NAME + " (" +
+    final String SQL_CREATE_PROPERTIES_TABLE = "CREATE TABLE " + CassiniContract.PropertyEntry.TABLE_NAME + " (" +
             CassiniContract.PropertyEntry.C_ID + " INTEGER PRIMARY KEY," +
             CassiniContract.PropertyEntry.C_NAME + " TEXT UNIQUE, " +
             CassiniContract.PropertyEntry.C_DESCRIPTION + " TEXT, " +
@@ -38,7 +38,7 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
             CassiniContract.PropertyEntry.C_TIME + " REAL);";
 
     // Create a table to hold agents.
-    final String SQL_CREATE_AGENT_TABLE = "CREATE TABLE " + CassiniContract.AgentEntry.TABLE_NAME + " (" +
+    final String SQL_CREATE_AGENTS_TABLE = "CREATE TABLE " + CassiniContract.AgentEntry.TABLE_NAME + " (" +
             CassiniContract.AgentEntry.C_ID + " INTEGER PRIMARY KEY, " +
             CassiniContract.AgentEntry.C_NAME + " TEXT UNIQUE, " +
             CassiniContract.AgentEntry.C_DESCRIPTION + " TEXT, " +
@@ -54,17 +54,48 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
             CassiniContract.AgentEntry.C_TIME + " REAL);";
 
     // Create a table to hold images.
-    final String SQL_CREATE_IMAGE_TABLE = "CREATE TABLE " + CassiniContract.ImageEntry.TABLE_NAME + " (" +
+    final String SQL_CREATE_IMAGES_TABLE = "CREATE TABLE " + CassiniContract.ImageEntry.TABLE_NAME + " (" +
             CassiniContract.ImageEntry.C_ID + " TEXT PRIMARY KEY," +
             CassiniContract.ImageEntry.C_NAME + " TEXT, " +
             CassiniContract.ImageEntry.C_URL + " TEXT, " +
             CassiniContract.ImageEntry.C_OWNER_ID + " INTEGER);";
 
     // Create a table to hold comments.
-    final String SQL_CREATE_COMMENT_TABLE = "CREATE TABLE " + CassiniContract.CommentEntry.TABLE_NAME + " (" +
+    final String SQL_CREATE_COMMENTS_TABLE = "CREATE TABLE " + CassiniContract.CommentEntry.TABLE_NAME + " (" +
             CassiniContract.CommentEntry.C_ID + " INTEGER PRIMARY KEY," +
             CassiniContract.CommentEntry.C_COMMENT + " TEXT, " +
+            CassiniContract.CommentEntry.C_OWNER_NAME + " TEXT, " +
+            CassiniContract.CommentEntry.C_OWNER_PIC + " TEXT, " +
+            CassiniContract.CommentEntry.C_RESPONSE + " TEXT, " +
+            CassiniContract.CommentEntry.C_RESPONSE_OWNER + " TEXT, " +
+            CassiniContract.CommentEntry.C_RESPONSE_TIME + " INTEGER, " +
+            CassiniContract.CommentEntry.C_TIME + " INTEGER, " +
             CassiniContract.CommentEntry.C_OWNER_ID + " INTEGER);";
+
+
+    //create event table
+    final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " + CassiniContract.EventEntry.TABLE_NAME + " (" +
+            CassiniContract.EventEntry.C_ID + " INTEGER PRIMARY KEY," +
+            CassiniContract.EventEntry.C_TITLE + " TEXT, " +
+            CassiniContract.EventEntry.C_DESCRIPTION + " TEXT, " +
+            CassiniContract.EventEntry.C_LOCATION + " TEXT, " +
+            CassiniContract.EventEntry.C_TIME + " INTEGER, " +
+            CassiniContract.EventEntry.C_LIKES + " INTEGER, " +
+            CassiniContract.EventEntry.C_LATT + " INTEGER, " +
+            CassiniContract.EventEntry.C_LONG + " INTEGER, " +
+            CassiniContract.EventEntry.C_OWNER_ID + " INTEGER);";
+
+    //create event table
+    final String SQL_CREATE_CONTACTS_TABLE = "CREATE TABLE " + CassiniContract.ContactEntry.TABLE_NAME + " (" +
+            CassiniContract.ContactEntry.C_ID + " INTEGER PRIMARY KEY," +
+            CassiniContract.ContactEntry.C_TITLE + " TEXT, " +
+            CassiniContract.ContactEntry.C_PHONE + " TEXT, " +
+            CassiniContract.ContactEntry.C_EMAIL + " TEXT, " +
+            CassiniContract.ContactEntry.C_ADDRESS + " INTEGER, " +
+            CassiniContract.ContactEntry.C_WEBSITE + " INTEGER, " +
+            CassiniContract.ContactEntry.C_LATT + " INTEGER, " +
+            CassiniContract.ContactEntry.C_LONG + " INTEGER);";
+
 
     public CassiniDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -74,10 +105,14 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
 
-        db.execSQL(SQL_CREATE_AGENT_TABLE);
-        db.execSQL(SQL_CREATE_PROPERTY_TABLE);
-        db.execSQL(SQL_CREATE_IMAGE_TABLE);
-        db.execSQL(SQL_CREATE_COMMENT_TABLE);
+        db.execSQL(SQL_CREATE_AGENTS_TABLE);
+        db.execSQL(SQL_CREATE_PROPERTIES_TABLE);
+        db.execSQL(SQL_CREATE_IMAGES_TABLE);
+        db.execSQL(SQL_CREATE_COMMENTS_TABLE);
+        db.execSQL(SQL_CREATE_EVENTS_TABLE);
+        db.execSQL(SQL_CREATE_CONTACTS_TABLE);
+
+
     }
 
 
@@ -94,7 +129,7 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
 //        onCreate(db);
 
         if (newVersion == 2) ;
-        //db.execSQL(SQL_CREATE_IMAGE_TABLE);
+        //db.execSQL(SQL_CREATE_IMAGES_TABLE);
 
 
     }

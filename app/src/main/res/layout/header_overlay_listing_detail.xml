@@ -18,7 +18,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/ca_content_padding"
-            android:src="@drawable/ic_action_picture"
+            android:src="@drawable/ic_image_camera_alt"
             android:scaleType="fitXY" />
 
         <LinearLayout

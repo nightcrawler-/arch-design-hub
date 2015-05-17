@@ -1,6 +1,6 @@
 (function () {
     var app = angular.module('app', []);
-    var apisToLoad = 5;
+    var apisToLoad = 8;
     var loginAttempts = 2;
 
     app.config(function ($sceDelegateProvider) {
@@ -13,6 +13,15 @@
 
 
     app.controller('MainController', function ($scope, $window) {
+
+        //generic functions
+        $scope.getRelativeTime = function (millis) {
+            var date = new Date(0);
+            date.setUTCMilliseconds(millis);
+            if (millis == 0 || millis == null)
+                return "eons";
+            return moment(date).fromNow();
+        }
 
         //actions
         $scope.getUploadUrl = function (url) {
@@ -28,6 +37,26 @@
             });
         }
 
+        $scope.listUsers = function () {
+            gapi.client.userApi.list().execute(function (resp) {
+                if (!resp.code) {
+                    $scope.users = resp.items;
+                }
+                $scope.$apply();
+
+
+            });
+        }
+
+        $scope.listComments = function () {
+            gapi.client.commentApi.list().execute(function (resp) {
+                if (!resp.code) {
+                    $scope.comments = resp.items;
+                }
+                $scope.$apply();
+            });
+        }
+
         $scope.listAgents = function () {
             gapi.client.agentApi.list().execute(function (resp) {
                 console.log(resp);
@@ -40,6 +69,7 @@
 
         $scope.insertAgent = function (req) {
             $scope.loading = true;
+            req.time = new Date().getTime();
             gapi.client.agentApi.insert(req).execute(function (resp) {
                 console.log(resp);
                 if (!resp.code) {
@@ -54,6 +84,7 @@
 
         $scope.insertListing = function (req) {
             $scope.loading = true;
+            req.time = new Date().getTime();
             gapi.client.propertyApi.insert(req).execute(function (resp) {
                 console.log(resp);
 
@@ -64,10 +95,74 @@
                 $scope.$apply();
             });
         }
+
+        $scope.insertEvent = function (req) {
+            //usedd to show relevant progress bars
+            $scope.loading = true;
+            var dates = req.time.split("/");
+            var date = new Date(dates[0], dates[1] - 1, dates[2], 8, 0, 0);
+            req.time = date.getTime();
+            gapi.client.eventApi.insert(req).execute(function (resp) {
+                if (!resp.code) {
+                    $scope.getUploadUrl(resp.id);
+                }
+            });
+        }
+
+        $scope.insertOrUpdateContact = function (req) {
+            $scope.loading = true;
+            if (req.id) {
+                gapi.client.contactApi.update(req).execute(function (resp) {
+                    console.log(resp);
+                    if (!resp.code) {
+                        $scope.contact = resp;
+                        $scope.getUploadUrl(resp.id);
+
+                    }
+                    $scope.loading = false;
+                    $scope.$apply();
+
+                });
+
+            } else {
+                gapi.client.contactApi.insert(req).execute(function (resp) {
+                    console.log(resp);
+
+                    if (!resp.code) {
+                        $scope.contact = resp;
+                        $scope.getUploadUrl(resp.id);
+
+                    }
+                    $scope.loading = false;
+                    $scope.$apply();
+                });
+            }
+        }
+
+        $scope.updateComment = function (comment) {
+            $scope.loading = true;
+            comment.replyTime = new Date().getTime();
+            comment.response = comment.responseRaw;
+            gapi.client.commentApi.update(comment).execute(function (resp) {
+                console.log(resp);
+                if (!resp.code) {
+                    $scope.reply = false;
+                    comment.responseRaw = "";
+                } else {
+                    $scope.reply = true;
+                }
+
+                $scope.loading = false;
+                $scope.$apply();
+
+            });
+        }
         $scope.loginSuccess = function (user) {
             $scope.loggedIn = true;
             $scope.user = user;
             $scope.listAgents();
+            $scope.listUsers();
+            $scope.listComments();
             $scope.$apply();
         }
 
@@ -112,6 +207,10 @@
             gapi.client.load('agentApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('propertyApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('userApi', 'v1', $scope.loadCallback, API_URL);
+            gapi.client.load('eventApi', 'v1', $scope.loadCallback, API_URL);
+            gapi.client.load('contactApi', 'v1', $scope.loadCallback, API_URL);
+
+            gapi.client.load('commentApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('uploadUrlApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('oauth2', 'v2', $scope.loadCallback);
 

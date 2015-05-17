@@ -12,20 +12,17 @@ import android.util.Log;
 
 public class CassiniProvider extends ContentProvider {
     private static final String TAG = CassiniProvider.class.getSimpleName();
-    private CassiniDbHelper dbHelper;
     private static final int AGENTS = 201;
     private static final int PROPERTIES = 202;
     private static final int PROPERTY = 203;
     private static final int IMAGES_ALL = 204;
     private static final int IMAGES_OWNER = 205;
+    private static final int EVENTS = 206;
+    private static final int COMMENTS = 207;
+    private static final int CONTACTS = 208;
 
-    // Creates a UriMatcher object.
 
-
-    public CassiniProvider() {
-    }
-
-    static SQLiteQueryBuilder listingsQueryBuilder, listingDetailsQueryBuilder, agentsQueryBuilder;
+    static SQLiteQueryBuilder listingsQueryBuilder, listingDetailsQueryBuilder, agentsQueryBuilder, eventsQueryBuilder, contactsQueryBuilder;
 
     static {
         listingsQueryBuilder = new SQLiteQueryBuilder();
@@ -45,15 +42,33 @@ public class CassiniProvider extends ContentProvider {
                 CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_ID + "=" + CassiniContract.ImageEntry.C_OWNER_ID);
     }
 
+    static {
+        eventsQueryBuilder = new SQLiteQueryBuilder();
+        eventsQueryBuilder.setTables(CassiniContract.EventEntry.TABLE_NAME + " LEFT JOIN " + CassiniContract.ImageEntry.TABLE_NAME + " ON " +
+                CassiniContract.EventEntry.TABLE_NAME + "." + CassiniContract.EventEntry.C_ID + "=" + CassiniContract.ImageEntry.TABLE_NAME + "." + CassiniContract.ImageEntry.C_OWNER_ID);
+    }
+
+    static {
+        contactsQueryBuilder = new SQLiteQueryBuilder();
+        contactsQueryBuilder.setTables(CassiniContract.ContactEntry.TABLE_NAME + " LEFT JOIN " + CassiniContract.ImageEntry.TABLE_NAME + " ON " +
+                CassiniContract.ContactEntry.TABLE_NAME + "." + CassiniContract.ContactEntry.C_ID + "=" + CassiniContract.ImageEntry.C_OWNER_ID);
+    }
+
+    private CassiniDbHelper dbHelper;
+
+    public CassiniProvider() {
+    }
 
     private static UriMatcher buildUriMatcher() {
         UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_AGENT, AGENTS);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_PROPERTY, PROPERTIES);
-        sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_PROPERTY + "/#", PROPERTY);
+        sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_EVENT, EVENTS);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_IMAGE, IMAGES_ALL);
+        sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_COMMENT, COMMENTS);
+        sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_CONTACT, CONTACTS);
+        sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_PROPERTY + "/#", PROPERTY);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_IMAGE + "/#", IMAGES_OWNER);
-
         return sUriMatcher;
     }
 
@@ -99,27 +114,45 @@ public class CassiniProvider extends ContentProvider {
         int match = buildUriMatcher().match(uri);
         Log.i(TAG, "matched - " + match);
 
-        try {
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Cursor retCursor;
 
         switch (match) {
             case AGENTS:
-                return agentsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
+                retCursor = agentsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
+                        selection, selectionArgs, null, null, sortOrder);
+                break;
             case PROPERTIES:
-                return listingsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, selection,
+                retCursor = listingsQueryBuilder.query(dbHelper.getReadableDatabase(), projection, selection,
                         selectionArgs, CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID, null, sortOrder);
+                break;
             case PROPERTY:
-                return listingDetailsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
+                retCursor = listingDetailsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
                         CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + ContentUris.parseId(uri),
                         selectionArgs, CassiniContract.ImageEntry.C_URL, null, sortOrder);
+                break;
             case IMAGES_OWNER:
-                return dbHelper.getReadableDatabase().query(CassiniContract.ImageEntry.TABLE_NAME, projection,
+                retCursor = dbHelper.getReadableDatabase().query(CassiniContract.ImageEntry.TABLE_NAME, projection,
                         CassiniContract.ImageEntry.C_OWNER_ID + "=" + ContentUris.parseId(uri), selectionArgs, null, null, sortOrder);
+                break;
+            case EVENTS:
+                retCursor = eventsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
+                        selection, selectionArgs, CassiniContract.EventEntry.TABLE_NAME + "." + CassiniContract.EventEntry.C_ID, null, sortOrder);
+                break;
+            case COMMENTS:
+                retCursor = dbHelper.getReadableDatabase().query(CassiniContract.CommentEntry.TABLE_NAME,
+                        projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+            case CONTACTS:
+                retCursor = contactsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
+                        selection, selectionArgs, CassiniContract.ContactEntry.TABLE_NAME + "." + CassiniContract.ContactEntry.C_ID, null, sortOrder);
+                break;
             default:
-                return null;
+                retCursor = null;
         }
+
+        //Registers the content observer to recive any updates
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return retCursor;
     }
 
     @Override
@@ -165,12 +198,21 @@ public class CassiniProvider extends ContentProvider {
             case IMAGES_ALL:
                 table = CassiniContract.ImageEntry.TABLE_NAME;
                 break;
+            case EVENTS:
+                table = CassiniContract.EventEntry.TABLE_NAME;
+                break;
+            case COMMENTS:
+                table = CassiniContract.CommentEntry.TABLE_NAME;
+                break;
+            case CONTACTS:
+                table = CassiniContract.ContactEntry.TABLE_NAME;
+                break;
         }
 
         if (table != null) {
             try {
                 for (ContentValues value : values) {
-                    _id = db.insert(table, null, value);
+                    _id = db.insertWithOnConflict(table, null, value, SQLiteDatabase.CONFLICT_REPLACE);
                     if (_id != -1)
                         returnCount++;
                 }

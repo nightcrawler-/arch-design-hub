@@ -23,6 +23,8 @@ public class CassiniContract {
     public static final String PATH_USER = "user";
     public static final String PATH_IMAGE = "image";
     public static final String PATH_COMMENT = "comment";
+    public static final String PATH_EVENT = "event";
+    public static final String PATH_CONTACT = "contact";
 
 
     /* Inner class that defines the table contents of the property table */
@@ -155,7 +157,7 @@ public class CassiniContract {
         }
     }
 
-    /* Inner class that defines the table contents of the images table */
+    /* Inner class that defines the table contents of the comments table */
     public static final class CommentEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
@@ -173,9 +175,80 @@ public class CassiniContract {
         public static final String C_ID = "_ID";
         public static final String C_COMMENT = "comment";
         public static final String C_OWNER_ID = "ownerId";
+        public static final String C_TIME = "time";
+        public static final String C_OWNER_NAME = "name";
+        public static final String C_OWNER_PIC = "pic";
+        public static final String C_RESPONSE = "response";
+        public static final String C_RESPONSE_TIME = "response_time";
+        public static final String C_RESPONSE_OWNER = "response_owner";
 
 
         public static Uri buildCommentUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+
+    }
+
+    /* Inner class that defines the table contents of the events table */
+    public static final class EventEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_EVENT).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_EVENT;
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_EVENT;
+
+        // Table name
+        public static final String TABLE_NAME = "events";
+
+        //Column names
+        public static final String C_ID = "_ID";
+        public static final String C_TITLE = "title";
+        public static final String C_OWNER_ID = "ownerId";
+        public static final String C_TIME = "time";
+        public static final String C_LIKES = "likes";
+        public static final String C_DESCRIPTION = "description";
+        public static final String C_LOCATION = "location";
+        public static final String C_LATT = "latt";
+        public static final String C_LONG = "longi";
+
+
+        public static Uri buildEventsUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+
+    }
+
+    /* Inner class that defines the table contents of the contacts table */
+    public static final class ContactEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_CONTACT).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_CONTACT;
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_CONTACT;
+
+        // Table name
+        public static final String TABLE_NAME = "contacts";
+
+        //Column names
+        public static final String C_ID = "_ID";
+        public static final String C_TITLE = "title";
+        public static final String C_PHONE = "phone";
+        public static final String C_EMAIL = "email";
+        public static final String C_WEBSITE = "website";
+        public static final String C_ADDRESS = "address";
+        public static final String C_LATT = "latt";
+        public static final String C_LONG = "longi";
+
+
+        public static Uri buildContactsUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 

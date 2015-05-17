@@ -14,6 +14,7 @@
     <color name="ca_white_transluscent">#26ffffff</color>
     <color name="ca_detail_title">#FFFFFF</color>
     <color name="ca_detail_sub_title">#E4E4E4</color>
+    <color name="ca_special_red">#f44336</color>
 
 
     <!-- PROGRESS BAR COLORS -->
