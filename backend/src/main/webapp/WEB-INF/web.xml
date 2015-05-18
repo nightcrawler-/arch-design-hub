@@ -58,6 +58,27 @@
         <url-pattern>/serveBlob</url-pattern>
     </servlet-mapping>
 
+    <!-- My custom api to support third party piggys-->
+    <servlet>
+        <servlet-name>agentsServlet</servlet-name>
+        <servlet-class>com.singularity.archdesignhub.backend.content.AgentsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>agentsServlet</servlet-name>
+        <url-pattern>/content/api/agents/register</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>propertiesServlet</servlet-name>
+        <servlet-class>com.singularity.archdesignhub.backend.content.PropertiesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>propertiesServlet</servlet-name>
+        <url-pattern>/content/api/properties/add</url-pattern>
+    </servlet-mapping>
+    <!-- end of My custom api to support third party piggys-->
+
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
