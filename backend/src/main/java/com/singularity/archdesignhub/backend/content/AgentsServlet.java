@@ -44,7 +44,7 @@ public class AgentsServlet extends HttpServlet {
 
         JSONObject respObj = new JSONObject();
         respObj.put("agent_id", respAgent.getId());
-        respObj.put("upload_images_url", new UploadUrlEndpoint().getUploadUrl(String.valueOf(respAgent.getId())));
+        respObj.put("upload_images_url", new UploadUrlEndpoint().getUploadUrl(String.valueOf(respAgent.getId())).getUrl());
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();

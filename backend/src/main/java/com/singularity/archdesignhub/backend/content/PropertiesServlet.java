@@ -47,7 +47,7 @@ public class PropertiesServlet extends HttpServlet{
 
         JSONObject respObj = new JSONObject();
         respObj.put("property_id", respProperty.getId());
-        respObj.put("upload_images_url", new UploadUrlEndpoint().getUploadUrl(String.valueOf(respProperty.getId())));
+        respObj.put("upload_images_url", new UploadUrlEndpoint().getUploadUrl(String.valueOf(respProperty.getId())).getUrl());
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
