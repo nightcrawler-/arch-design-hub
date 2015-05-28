@@ -7,6 +7,7 @@ import com.singularity.archdesignhub.backend.entities.commentApi.CommentApi;
 import com.singularity.archdesignhub.backend.entities.contactApi.ContactApi;
 import com.singularity.archdesignhub.backend.entities.eventApi.EventApi;
 import com.singularity.archdesignhub.backend.entities.imageApi.ImageApi;
+import com.singularity.archdesignhub.backend.entities.messageApi.MessageApi;
 import com.singularity.archdesignhub.backend.entities.propertyApi.PropertyApi;
 import com.singularity.archdesignhub.backend.entities.userApi.UserApi;
 
@@ -22,6 +23,7 @@ public class BackboneBase {
     protected CommentApi commentApi;
     protected EventApi eventApi;
     protected ContactApi contactApi;
+    protected MessageApi messageApi;
 
     public BackboneBase() {
         init();
@@ -29,6 +31,12 @@ public class BackboneBase {
 
     //Load all APIs
     private void init() {
+        if(messageApi ==null){
+            MessageApi.Builder builder = new MessageApi.Builder(AndroidHttp.newCompatibleTransport(),
+                    new AndroidJsonFactory(), null);
+            messageApi = builder.build();
+        }
+
         if (contactApi == null) {  // Only do this once
             ContactApi.Builder builder = new ContactApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null);

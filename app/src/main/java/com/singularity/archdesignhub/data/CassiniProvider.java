@@ -20,6 +20,7 @@ public class CassiniProvider extends ContentProvider {
     private static final int EVENTS = 206;
     private static final int COMMENTS = 207;
     private static final int CONTACTS = 208;
+    private static final int MESSAGES = 209;
 
 
     static SQLiteQueryBuilder listingsQueryBuilder, listingDetailsQueryBuilder, agentsQueryBuilder, eventsQueryBuilder, contactsQueryBuilder;
@@ -67,6 +68,7 @@ public class CassiniProvider extends ContentProvider {
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_IMAGE, IMAGES_ALL);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_COMMENT, COMMENTS);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_CONTACT, CONTACTS);
+        sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_MESSAGE, MESSAGES);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_PROPERTY + "/#", PROPERTY);
         sUriMatcher.addURI(CassiniContract.CONTENT_AUTHORITY, CassiniContract.PATH_IMAGE + "/#", IMAGES_OWNER);
         return sUriMatcher;
@@ -146,6 +148,9 @@ public class CassiniProvider extends ContentProvider {
                 retCursor = contactsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
                         selection, selectionArgs, CassiniContract.ContactEntry.TABLE_NAME + "." + CassiniContract.ContactEntry.C_ID, null, sortOrder);
                 break;
+            case MESSAGES:
+                retCursor = dbHelper.getReadableDatabase().query(CassiniContract.MessageEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
             default:
                 retCursor = null;
         }
@@ -167,7 +172,6 @@ public class CassiniProvider extends ContentProvider {
                 break;
             case AGENTS:
                 result = dbHelper.getWritableDatabase().update(CassiniContract.AgentEntry.TABLE_NAME, values, selection, selectionArgs);
-
                 break;
             default:
                 result = -1;
@@ -206,6 +210,9 @@ public class CassiniProvider extends ContentProvider {
                 break;
             case CONTACTS:
                 table = CassiniContract.ContactEntry.TABLE_NAME;
+                break;
+            case MESSAGES:
+                table = CassiniContract.MessageEntry.TABLE_NAME;
                 break;
         }
 

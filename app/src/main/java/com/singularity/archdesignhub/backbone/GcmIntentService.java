@@ -8,6 +8,8 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.singularity.archdesignhub.data.SyncIntentService;
+import com.singularity.archdesignhub.utils.Utils;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +42,16 @@ public class GcmIntentService extends IntentService {
     }
 
     protected void showToast(final String message) {
+        try {
+            if (Integer.parseInt(message) == 1) {
+                Utils.setNotify(this, true);
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        SyncIntentService.startActionFetch(this);
+
+
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {

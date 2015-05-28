@@ -375,6 +375,43 @@
                                 <!--end .col -->
                                 <!-- END ADD EVENT -->
                             </div>
+
+                            <!-- BEGIN SEND MESSAGE-->
+                            <div ng-show="nav === 'sendMessage'">
+                                <div class="col-lg-offset-3 col-md-6 col-sm-8">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <form name="formMessage" class="form form-validate" novalidate="novalidate">
+                                                <div class="form-group">
+                                                    <input ng-model="message.extra" type="text" class="form-control" id="regular1" required data-rule-minlength="2">
+                                                    <label for="regular1">Subject</label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <textarea ng-model="message.content" name="textarea1" id="textarea1" class="form-control" rows="3" placeholder="" required data-rule-minlength="2"></textarea>
+                                                    <label for="textarea1">Message</label>
+                                                </div>
+
+                                                <div class=row>
+                                                    <div class="cassini-padding col-lg-offset-3 col-md-3">
+                                                        <button ng-disabled="formMessage.$invalid" ng-click="uploadMessage(message)" type="button" ng-class="{'btn ink-reaction btn-floating-action btn-primary' : !loading, 'btn ink-reaction btn-floating-action disabled' : loading}"><i ng-class="{'fa fa-spinner fa-spin' : loading, 'fa fa-check' : !loading}"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="cassini-padding  col-lg-offset-2 col-md-3 ">
+                                                        <button type="submit" ng-click="nav = 'home'" type="button" class="btn ink-reaction btn-floating-action btn-danger"><i class="fa fa-remove"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <!--end .card-body -->
+                                    </div>
+                                    <!--end .card -->
+                                </div>
+                                <!--end .col -->
+                                <!-- END SEND MESSAGE -->
+                            </div>
+
                             <!-- BEGIN UPDATE CONTACT INFO -->
                             <div ng-show="nav === 'updateContactInfo'">
                                 <div class="col-lg-offset-3 col-md-6 col-sm-8">
@@ -605,6 +642,16 @@
                     </li>
                     <!--end /menu-li -->
                     <!-- END DASHBOARD -->
+                    <!-- BEGIN SEND MESSAGE -->
+                    <li>
+                        <a href="#" ng-click="nav = 'sendMessage'">
+                            <div class="gui-icon"><i class="fa fa-wechat"></i>
+                            </div>
+                            <span class="title">Send Message</span>
+                        </a>
+                    </li>
+                    <!--end /menu-li -->
+                    <!-- END SEND MESSAGE -->
 
                     <!-- BEGIN ADD CONTENT -->
                     <li class="gui-folder">

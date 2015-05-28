@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.singularity.archdesignhub.backbone.Backbone;
+import com.singularity.archdesignhub.ui.NewMessageNotification;
 import com.singularity.archdesignhub.utils.Utils;
 
 import java.io.IOException;
@@ -116,6 +117,23 @@ public class SyncIntentService extends IntentService {
             if (contacts != null)
                 num = mContentResolver.bulkInsert(CassiniContract.ContactEntry.CONTENT_URI, contacts);
             Log.i(TAG, "inserted comments - " + num);
+        } catch (IOException e) {
+            e.printStackTrace();
+            exceptionCount++;
+
+        }
+
+        try {
+            ContentValues[] messages = Backbone.getInstance().getMessages();
+            int num = 0;
+            if (messages != null)
+                num = mContentResolver.bulkInsert(CassiniContract.MessageEntry.CONTENT_URI, messages);
+            Log.i(TAG, "inserted messages - " + num);
+            if (Utils.isNotify(this)) {
+                NewMessageNotification.notify(this, "New message", 0);
+                Utils.setNotify(this, false);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
             exceptionCount++;

@@ -57,6 +57,16 @@ public class Utils {
 
     }
 
+    public static boolean isNotify(Context c) {
+        return getPrefs(c).getBoolean("notify", false);
+    }
+
+    public static void setNotify(Context c, boolean notify) {
+        SharedPreferences.Editor editor = getPrefs(c).edit();
+        editor.putBoolean("notify", notify);
+        editor.commit();
+    }
+
 
     public static synchronized void setGcmRegistered(Context c,
                                                      String registration) {
@@ -114,8 +124,6 @@ public class Utils {
             return true;
         return false;
     }
-
-
 
 
 }

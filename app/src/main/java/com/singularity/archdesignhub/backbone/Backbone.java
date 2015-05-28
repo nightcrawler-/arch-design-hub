@@ -7,6 +7,7 @@ import com.singularity.archdesignhub.backend.entities.commentApi.model.Comment;
 import com.singularity.archdesignhub.backend.entities.contactApi.model.Contact;
 import com.singularity.archdesignhub.backend.entities.eventApi.model.Event;
 import com.singularity.archdesignhub.backend.entities.imageApi.model.Image;
+import com.singularity.archdesignhub.backend.entities.messageApi.model.Message;
 import com.singularity.archdesignhub.backend.entities.propertyApi.model.Property;
 import com.singularity.archdesignhub.backend.entities.userApi.model.User;
 import com.singularity.archdesignhub.data.CassiniContract;
@@ -124,6 +125,18 @@ public class Backbone extends BackboneBase {
         return null;
     }
 
+    public ContentValues[] getMessages() throws IOException {
+        List<Message> messages = messageApi.list().execute().getItems();
+        if (messages != null) {
+            ContentValues[] values = new ContentValues[messages.size()];
+            for (Message message : messages) {
+                values[messages.indexOf(message)] = getMessageContentValues(message);
+            }
+            return values;
+        }
+        return null;
+    }
+
     private ContentValues getAgentContentValues(Agent agent) {
         ContentValues values = new ContentValues();
         values.put(CassiniContract.AgentEntry.C_ADDRESS, agent.getAddress());
@@ -207,6 +220,18 @@ public class Backbone extends BackboneBase {
         values.put(CassiniContract.ContactEntry.C_PHONE, contact.getPhone());
         values.put(CassiniContract.ContactEntry.C_TITLE, contact.getName());
         values.put(CassiniContract.ContactEntry.C_WEBSITE, contact.getWebsite());
+        return values;
+    }
+
+    private ContentValues getMessageContentValues(Message message) {
+        ContentValues values = new ContentValues();
+        values.put(CassiniContract.MessageEntry.C_ID, message.getId());
+        values.put(CassiniContract.MessageEntry.C_MESSAGE, message.getContent());
+        values.put(CassiniContract.MessageEntry.C_EXTRA, message.getExtra());
+        values.put(CassiniContract.MessageEntry.C_TIME, message.getTime());
+        values.put(CassiniContract.MessageEntry.C_VIEWS, message.getViews());
+
+
         return values;
     }
 

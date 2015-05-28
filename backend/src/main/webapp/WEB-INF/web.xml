@@ -23,7 +23,8 @@
                 com.singularity.archdesignhub.backend.endpoints.ImageEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.UploadUrlEndpoint,
                 com.singularity.archdesignhub.backend.endpoints.EventEndpoint,
-                com.singularity.archdesignhub.backend.endpoints.ContactEndpoint</param-value>
+                com.singularity.archdesignhub.backend.endpoints.ContactEndpoint,
+                com.singularity.archdesignhub.backend.endpoints.MessageEndpoint</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

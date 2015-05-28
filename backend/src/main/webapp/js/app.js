@@ -1,6 +1,6 @@
 (function () {
     var app = angular.module('app', []);
-    var apisToLoad = 8;
+    var apisToLoad = 10;
     var loginAttempts = 2;
 
     app.config(function ($sceDelegateProvider) {
@@ -148,6 +148,8 @@
                 if (!resp.code) {
                     $scope.reply = false;
                     comment.responseRaw = "";
+                    //sends gcm message to notify clients to download the new message, 0 is hardcoded on clients to exclude actuall messages. the rest of crud actions will send notifications from the backend after upload of pics is done, seeing as all of them require it
+                    $scope.sendGcmMessage(0);
                 } else {
                     $scope.reply = true;
                 }
@@ -157,6 +159,34 @@
 
             });
         }
+
+        $scope.uploadMessage = function (message) {
+            message.time = new Date().getTime();
+            $scope.loading = true;
+            gapi.client.messageApi.insert(message).execute(function (resp) {
+                if (!resp.code) {
+                    //success
+                    //sends gcm message to notify clients to download the new message
+                    $scope.sendGcmMessage(1);
+                    $scope.loading = false;
+                    $scope.nav = 'home';
+                }
+                $scope.loading = false;
+
+            });
+        }
+
+        $scope.sendGcmMessage = function (message) {
+            var reqObject = {};
+            reqObject.message = message;
+            gapi.client.messaging.messagingEndpoint.sendMessage(reqObject).execute(function (resp) {
+                if (!resp.code) {
+                    //success sent
+                }
+
+            });
+        }
+
         $scope.loginSuccess = function (user) {
             $scope.loggedIn = true;
             $scope.user = user;
@@ -209,7 +239,8 @@
             gapi.client.load('userApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('eventApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('contactApi', 'v1', $scope.loadCallback, API_URL);
-
+            gapi.client.load('messageApi', 'v1', $scope.loadCallback, API_URL);
+            gapi.client.load('messaging', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('commentApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('uploadUrlApi', 'v1', $scope.loadCallback, API_URL);
             gapi.client.load('oauth2', 'v2', $scope.loadCallback);

@@ -12,7 +12,7 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
     private static final int DATABASE_VERSION = 2;
 
-    public static final String DATABASE_NAME = "archdesign.db";
+    public static final String DATABASE_NAME = "archdesign2.db";
 
     // Create a table to hold properties.
     final String SQL_CREATE_PROPERTIES_TABLE = "CREATE TABLE " + CassiniContract.PropertyEntry.TABLE_NAME + " (" +
@@ -85,7 +85,7 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
             CassiniContract.EventEntry.C_LONG + " INTEGER, " +
             CassiniContract.EventEntry.C_OWNER_ID + " INTEGER);";
 
-    //create event table
+    //create contacts table
     final String SQL_CREATE_CONTACTS_TABLE = "CREATE TABLE " + CassiniContract.ContactEntry.TABLE_NAME + " (" +
             CassiniContract.ContactEntry.C_ID + " INTEGER PRIMARY KEY," +
             CassiniContract.ContactEntry.C_TITLE + " TEXT, " +
@@ -95,6 +95,14 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
             CassiniContract.ContactEntry.C_WEBSITE + " INTEGER, " +
             CassiniContract.ContactEntry.C_LATT + " INTEGER, " +
             CassiniContract.ContactEntry.C_LONG + " INTEGER);";
+
+    //create messages table
+    final String SQL_CREATE_MESSAGES_TABLE = "CREATE TABLE " + CassiniContract.MessageEntry.TABLE_NAME + " (" +
+            CassiniContract.MessageEntry.C_ID + " INTEGER PRIMARY KEY," +
+            CassiniContract.MessageEntry.C_EXTRA + " TEXT, " +
+            CassiniContract.MessageEntry.C_MESSAGE + " TEXT, " +
+            CassiniContract.MessageEntry.C_TIME + " INTEGER, " +
+            CassiniContract.MessageEntry.C_VIEWS + " INTEGER);";
 
 
     public CassiniDbHelper(Context context) {
@@ -111,6 +119,8 @@ public class CassiniDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_COMMENTS_TABLE);
         db.execSQL(SQL_CREATE_EVENTS_TABLE);
         db.execSQL(SQL_CREATE_CONTACTS_TABLE);
+        db.execSQL(SQL_CREATE_MESSAGES_TABLE);
+
 
 
     }

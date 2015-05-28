@@ -289,7 +289,9 @@ public class NavigationDrawerFragment extends Fragment {
                 new NavItem(getString(R.string.title_section2), R.drawable.ca_nav_ic_action_agents),
                 new NavItem(getString(R.string.title_section3), R.drawable.ca_nav_ic_action_event),
                 new NavItem(getString(R.string.title_section4), R.drawable.ca_nav_ic_action_fan_wall),
-                new NavItem(getString(R.string.title_section5), R.drawable.ca_nav_ic_communication_quick_contacts_dialer)};
+                new NavItem(getString(R.string.title_section5), R.drawable.ic_communication_email),
+                new NavItem(getString(R.string.title_section6), R.drawable.ca_nav_ic_communication_quick_contacts_dialer)
+        };
 
         return items;
     }

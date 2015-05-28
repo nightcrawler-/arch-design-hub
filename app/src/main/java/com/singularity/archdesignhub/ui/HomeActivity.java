@@ -126,6 +126,9 @@ public class HomeActivity extends ActionBarActivity
                 current = CommentsFragment.newInstance();
                 break;
             case 4:
+                current = MessagesFragment.newInstance();
+                break;
+            case 5:
                 current = ContactsFragment.newInstance();
                 break;
             default:

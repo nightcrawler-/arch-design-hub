@@ -25,6 +25,7 @@ public class CassiniContract {
     public static final String PATH_COMMENT = "comment";
     public static final String PATH_EVENT = "event";
     public static final String PATH_CONTACT = "contact";
+    public static final String PATH_MESSAGE = "message";
 
 
     /* Inner class that defines the table contents of the property table */
@@ -249,6 +250,36 @@ public class CassiniContract {
 
 
         public static Uri buildContactsUri(long id) {
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+
+    }
+
+
+    /* Inner class that defines the table contents of the messages table */
+    public static final class MessageEntry implements BaseColumns {
+
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_MESSAGE).build();
+
+        public static final String CONTENT_TYPE =
+                "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_MESSAGE;
+        public static final String CONTENT_ITEM_TYPE =
+                "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_MESSAGE;
+
+        // Table name
+        public static final String TABLE_NAME = "messages";
+
+        //Column names
+        public static final String C_ID = "_ID";
+        public static final String C_MESSAGE = "message";
+        public static final String C_TIME = "time";
+        public static final String C_EXTRA = "extra";
+        public static final String C_VIEWS = "views";
+
+
+        public static Uri buildMessagesUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 

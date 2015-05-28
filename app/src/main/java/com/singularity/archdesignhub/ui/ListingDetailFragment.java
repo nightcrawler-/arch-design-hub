@@ -229,7 +229,6 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
                 .position(new LatLng(-1.257662, 36.799800))
                 .title("Home"));
         LatLng latlng = new LatLng(-1.257662, 36.799800);
-
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
     }
 }
