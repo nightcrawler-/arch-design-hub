@@ -12,7 +12,6 @@
         android:layout_height="80dp"
         android:id="@+id/imageView17"
         android:scaleType="centerCrop"
-        android:src="@drawable/caplan"
         android:layout_alignParentTop="true"
         android:layout_marginRight="4dp" />
 

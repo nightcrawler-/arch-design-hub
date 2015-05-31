@@ -61,9 +61,9 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
     private static final String[] PROPERTY_COLUMNS = {
             CassiniContract.ImageEntry.C_URL,
             CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_NAME,
+            CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_TEL,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_NAME,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_LOCATION,
-            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TEL,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TIME,
             CassiniContract.PropertyEntry.C_INTENT,
             CassiniContract.PropertyEntry.C_LATT,
@@ -95,9 +95,9 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ca_image)
-                        //.showImageForEmptyUri(R.drawable.w_empty)
-                .showImageOnFail(R.drawable.ca_archdesign_blur)
+                //.showImageOnLoading(R.drawable.ca_image)
+                //.showImageForEmptyUri(R.drawable.w_empty)
+                // .showImageOnFail(R.drawable.ca_archdesign_blur)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -121,7 +121,7 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
         beds = (TextView) view.findViewById(R.id.textView15);
         bathrooms = (TextView) view.findViewById(R.id.textView8);
         time = (TextView) view.findViewById(R.id.textView3);
-        intent = (TextView)view.findViewById(R.id.textView13);
+        intent = (TextView) view.findViewById(R.id.textView13);
         fab = (FloatingActionButton) view.findViewById(R.id.fab2);
 
         mArguments = getArguments();
@@ -212,15 +212,17 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
             }
             propertyName.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
             agentName.setText(data.getString(1));
-            agentNumber.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
+            agentNumber.setText(data.getString(data.getColumnIndex(CassiniContract.AgentEntry.C_TEL)));
             bathrooms.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
             beds.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
             details.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_DESCRIPTION)));
             price.setText("KES. " + NumberFormat.getInstance().format(data.getInt(data.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
-            time.setText(DateUtils.getRelativeDateTimeString(getActivity(), data.getLong(5), (1 * 60 * 60 * 1000), (3 * 60 * 60 * 1000), DateUtils.FORMAT_ABBREV_RELATIVE));
+            time.setText(DateUtils.getRelativeDateTimeString(getActivity(), data.getLong(data.getColumnIndex(CassiniContract.PropertyEntry.C_TIME)), (1 * 60 * 60 * 1000), (3 * 60 * 60 * 1000), DateUtils.FORMAT_ABBREV_RELATIVE));
 
-            if(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_INTENT)).equals("Sale"))
+            if (data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_INTENT)).equals("Sale"))
                 intent.setVisibility(View.GONE);
+            else
+                intent.setVisibility(View.VISIBLE);
 
             imageLoader.displayImage(data.getString(data.getColumnIndex(CassiniContract.ImageEntry.C_URL)), image, options);
 
@@ -228,7 +230,7 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL))));
+                    intent.setData(Uri.parse("tel:" + data.getString(data.getColumnIndex(CassiniContract.AgentEntry.C_TEL))));
                     startActivity(intent);
                 }
             });

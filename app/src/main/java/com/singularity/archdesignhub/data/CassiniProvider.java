@@ -27,7 +27,7 @@ public class CassiniProvider extends ContentProvider {
 
     static {
         listingsQueryBuilder = new SQLiteQueryBuilder();
-        listingsQueryBuilder.setTables(CassiniContract.PropertyEntry.TABLE_NAME + " LEFT JOIN " + CassiniContract.ImageEntry.TABLE_NAME + " ON " +
+        listingsQueryBuilder.setTables(CassiniContract.AgentEntry.TABLE_NAME + " , " +CassiniContract.PropertyEntry.TABLE_NAME + " LEFT JOIN " + CassiniContract.ImageEntry.TABLE_NAME + " ON " +
                 CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + CassiniContract.ImageEntry.C_OWNER_ID);
     }
 
@@ -128,6 +128,7 @@ public class CassiniProvider extends ContentProvider {
                         selectionArgs, CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID, null, sortOrder);
                 break;
             case PROPERTY:
+                //the selection params will be extracted and applied to the relevant calling method
                 retCursor = listingDetailsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
                         CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + ContentUris.parseId(uri)
                                 + " AND " + CassiniContract.PropertyEntry.C_AGENT_ID + "="

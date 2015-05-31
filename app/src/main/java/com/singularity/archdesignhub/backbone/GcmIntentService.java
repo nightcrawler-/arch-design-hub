@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.singularity.archdesignhub.data.SyncIntentService;
@@ -55,7 +54,7 @@ public class GcmIntentService extends IntentService {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+               // Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
             }
         });
     }

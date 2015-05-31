@@ -5,7 +5,6 @@ import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.singularity.archdesignhub.R;
 
 /**
  * Created by Frederick on 5/13/2015.
@@ -19,9 +18,9 @@ public class DefaultImageLoader {
     private DefaultImageLoader() {
         if (options == null)
             options = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.ca_image)
-                            //.showImageForEmptyUri(R.drawable.w_empty)
-                    .showImageOnFail(R.drawable.ca_archdesign_blur)
+                    //.showImageOnLoading(R.drawable.ca_image)
+                    //.showImageForEmptyUri(R.drawable.w_empty)
+                    //.showImageOnFail(R.drawable.ca_archdesign_blur)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .considerExifParams(true)

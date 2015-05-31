@@ -123,7 +123,7 @@ public class LoginSelectionActivity extends Activity {
 
     public void loginDone() {
         Utils.setLoginDone(this, true);
-        startActivity(new Intent(this, HomeActivity.class));
+       // startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
 

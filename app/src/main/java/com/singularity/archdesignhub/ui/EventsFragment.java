@@ -75,7 +75,7 @@ public class EventsFragment extends Fragment implements LoaderManager.LoaderCall
                 EVENTS_COLUMNS,
                 null,
                 null,
-                null
+                "time DESC"
         );
     }
 

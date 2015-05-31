@@ -9,7 +9,6 @@
     <com.pkmmte.view.CircularImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/caplan"
         android:id="@+id/imageView17"
         app:civ_border="true"
         app:civ_borderColor="#FFFFFF"

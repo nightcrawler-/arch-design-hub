@@ -65,7 +65,7 @@ public class GalleryActivity extends ActionBarActivity implements LoaderManager.
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.i(TAG, "loader start");
 
-        Uri placesUri = CassiniContract.PropertyEntry.buildPropertyUri(getIntent().getExtras().getLong(CassiniContract.PropertyEntry.C_ID));
+        Uri placesUri = CassiniContract.ImageEntry.buildImageUri(getIntent().getExtras().getLong(CassiniContract.PropertyEntry.C_ID));
         Log.i(TAG, "uri - " +placesUri.toString());
 
         return new CursorLoader(

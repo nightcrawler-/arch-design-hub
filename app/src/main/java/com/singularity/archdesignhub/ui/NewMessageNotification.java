@@ -7,9 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
@@ -49,14 +46,12 @@ public class NewMessageNotification {
 
         // This image is used as the notification's large icon (thumbnail).
         // TODO: Remove this if your notification has no relevant thumbnail.
-        final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
+       // final Bitmap picture = BitmapFactory.decodeResource(res, R.drawable.example_picture);
 
 
         final String ticker = exampleString;
-        final String title = res.getString(
-                R.string.new_message_notification_title_template, exampleString);
-        final String text = res.getString(
-                R.string.new_message_notification_placeholder_text_template, exampleString);
+        final String title = "New Message";
+        final String text = "Archdesign Hub has sent a message";
 
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
 
@@ -66,7 +61,7 @@ public class NewMessageNotification {
 
                         // Set required fields, including the small icon, the
                         // notification title, and text.
-                .setSmallIcon(R.drawable.ic_new_message)
+                .setSmallIcon(R.drawable.ic_stat_new_msg)
                 .setContentTitle(title)
                 .setContentText(text)
 
@@ -78,7 +73,7 @@ public class NewMessageNotification {
 
                         // Provide a large icon, shown with the notification in the
                         // notification drawer on devices running Android 3.0 or later.
-                .setLargeIcon(picture)
+              //  .setLargeIcon(picture)
 
                         // Set ticker text (preview) information for this notification.
                 .setTicker(ticker)
@@ -102,7 +97,7 @@ public class NewMessageNotification {
                         PendingIntent.getActivity(
                                 context,
                                 0,
-                                new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com")),
+                                new Intent(context, HomeActivity.class),
                                 PendingIntent.FLAG_UPDATE_CURRENT))
 
                         // Show expanded text content on devices running Android 4.1 or

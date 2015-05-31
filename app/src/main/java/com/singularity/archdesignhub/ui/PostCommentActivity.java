@@ -1,5 +1,6 @@
 package com.singularity.archdesignhub.ui;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +16,7 @@ import com.singularity.archdesignhub.auth.LoginManager;
 import com.singularity.archdesignhub.backbone.Backbone;
 import com.singularity.archdesignhub.backend.entities.commentApi.model.Comment;
 import com.singularity.archdesignhub.backend.entities.userApi.model.User;
+import com.singularity.archdesignhub.utils.Utils;
 
 import java.io.IOException;
 
@@ -42,6 +44,13 @@ public class PostCommentActivity extends ActionBarActivity {
     }
 
     private void submitComment() {
+        if (!Utils.isLoginDone(this)) {
+            Toast.makeText(this, "You need to login first", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, LoginSelectionActivity.class));
+            return;
+
+        }
+
         String msg = content.getText().toString().trim();
         if (msg.length() == 0) {
             content.setError("Required");

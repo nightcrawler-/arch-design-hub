@@ -47,14 +47,13 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
 
     private static final String[] LISTING_COLUMNS = {
             CassiniContract.ImageEntry.C_URL,
+            CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_TEL,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_NAME,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TIME,
-            CassiniContract.PropertyEntry.C_LOCATION,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_LOCATION,
             CassiniContract.PropertyEntry.C_INTENT,
             CassiniContract.PropertyEntry.C_VALUE,
-            CassiniContract.PropertyEntry.C_INTENT,
-            CassiniContract.PropertyEntry.C_TEL,
             CassiniContract.PropertyEntry.C_BATHROOMS,
             CassiniContract.PropertyEntry.C_BEDROOMS
 
@@ -99,9 +98,9 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
         });
 
         options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ca_image)
-                        //.showImageForEmptyUri(R.drawable.w_empty)
-                .showImageOnFail(R.drawable.ca_archdesign_blur)
+                // .showImageOnLoading(R.drawable.ca_image)
+                //.showImageForEmptyUri(R.drawable.w_empty)
+                //.showImageOnFail(R.drawable.ca_archdesign_blur)
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -125,9 +124,11 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
                 getActivity(),
                 placesUri,
                 LISTING_COLUMNS,
+                CassiniContract.PropertyEntry.C_AGENT_ID +
+                        "=" + CassiniContract.AgentEntry.TABLE_NAME +
+                        "." + CassiniContract.AgentEntry.C_ID,
                 null,
-                null,
-                null
+                CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TIME + " DESC"
         );
     }
 
@@ -173,6 +174,8 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = new ViewHolder();
+            cursor.moveToPosition(position);
+
 
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.list_item_listing, null);
@@ -189,19 +192,14 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
 
                 Utils.applyFonts(convertView, App.getRobotoSlabLight());
 
-                //holder.bottomPadding = convertView.findViewById(R.id.bottomPad);
-
-
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            cursor.moveToPosition(position);
-            //hack for the padding at the bottom of the list
-//            if (position + 1 == getCount())
-//                holder.bottomPadding.setVisibility(View.VISIBLE);
-//            else
-//                holder.bottomPadding.setVisibility(View.GONE);
 
+            if (cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_INTENT)).equals("Sale"))
+                holder.intentLabel.setVisibility(View.GONE);
+            else
+                holder.intentLabel.setVisibility(View.VISIBLE);
 
             holder.title.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
             holder.location.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_LOCATION)));
@@ -209,12 +207,10 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
             holder.value.setText("KES. " + NumberFormat.getInstance().format(cursor.getInt(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
             holder.beds.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
             holder.showers.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
-            holder.time.setText(DateUtils.getRelativeDateTimeString(context, cursor.getLong(3), (1 * 60 * 60 * 1000), (3 * 60 * 60 * 1000), DateUtils.FORMAT_ABBREV_RELATIVE));
+            holder.time.setText(DateUtils.getRelativeDateTimeString(context, cursor.getLong(4), (60 * 1000), (60 * 1000), DateUtils.FORMAT_ABBREV_RELATIVE));
 
             DefaultImageLoader.getInstance().loadImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView);
 
-            if(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_INTENT)).equals("Sale"))
-                holder.intentLabel.setVisibility(View.GONE);
 
             return convertView;
         }
@@ -228,7 +224,6 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
         private class ViewHolder {
             ImageView imageView;
             TextView title, location, tel, value, intentLabel, showers, beds, time;
-            View bottomPadding;
         }
 
     }

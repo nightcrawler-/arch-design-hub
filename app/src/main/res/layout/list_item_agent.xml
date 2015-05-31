@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/ca_agent_image_height"
             android:id="@+id/imageView"
-            android:src="@drawable/lizzy"
             android:scaleType="centerCrop" />
 
         <LinearLayout
