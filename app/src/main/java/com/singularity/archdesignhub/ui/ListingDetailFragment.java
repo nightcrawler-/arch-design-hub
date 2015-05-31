@@ -12,6 +12,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,10 +46,14 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
     private static final String TAG = ListingDetailFragment.class.getSimpleName();
     private FadingActionBarHelper mFadingHelper;
     private Bundle mArguments;
-    private TextView propertyName, price, perMonth, agentName, agentNumber, details, beds, bathroms;
+    private TextView propertyName, price, perMonth, agentName, agentNumber, details, beds, bathrooms, time, intent;
     private ImageView image;
-    private GoogleMap map;
     private FloatingActionButton fab;
+
+    private GoogleMap map;
+    private LatLng latlng;
+    private String title;
+
 
     private static DisplayImageOptions options;
     protected static ImageLoader imageLoader = ImageLoader.getInstance();
@@ -59,14 +64,16 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_NAME,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_LOCATION,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TEL,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TIME,
+            CassiniContract.PropertyEntry.C_INTENT,
+            CassiniContract.PropertyEntry.C_LATT,
+            CassiniContract.PropertyEntry.C_LONG,
             CassiniContract.PropertyEntry.C_AGENT_ID,
             CassiniContract.PropertyEntry.C_BATHROOMS,
             CassiniContract.PropertyEntry.C_BEDROOMS,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_DESCRIPTION,
             CassiniContract.PropertyEntry.C_INTENT,
             CassiniContract.PropertyEntry.C_VALUE
-
-
     };
 
     private int PROPERTY_LOADER = 3;
@@ -112,7 +119,9 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
         agentNumber = (TextView) view.findViewById(R.id.textView6);
         details = (TextView) view.findViewById(R.id.textView9);
         beds = (TextView) view.findViewById(R.id.textView15);
-        bathroms = (TextView) view.findViewById(R.id.textView8);
+        bathrooms = (TextView) view.findViewById(R.id.textView8);
+        time = (TextView) view.findViewById(R.id.textView3);
+        intent = (TextView)view.findViewById(R.id.textView13);
         fab = (FloatingActionButton) view.findViewById(R.id.fab2);
 
         mArguments = getArguments();
@@ -193,7 +202,6 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
 
     private void populateHolders(final Cursor data) {
         if (data.getCount() > 0) {
-
             if (data.getPosition() == -1)
                 data.moveToPosition(0);
 
@@ -205,10 +213,15 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
             propertyName.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_NAME)));
             agentName.setText(data.getString(1));
             agentNumber.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_TEL)));
-            bathroms.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
+            bathrooms.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
             beds.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
             details.setText(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_DESCRIPTION)));
-            price.setText("KES. " +NumberFormat.getInstance().format(data.getInt(data.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
+            price.setText("KES. " + NumberFormat.getInstance().format(data.getInt(data.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
+            time.setText(DateUtils.getRelativeDateTimeString(getActivity(), data.getLong(5), (1 * 60 * 60 * 1000), (3 * 60 * 60 * 1000), DateUtils.FORMAT_ABBREV_RELATIVE));
+
+            if(data.getString(data.getColumnIndex(CassiniContract.PropertyEntry.C_INTENT)).equals("Sale"))
+                intent.setVisibility(View.GONE);
+
             imageLoader.displayImage(data.getString(data.getColumnIndex(CassiniContract.ImageEntry.C_URL)), image, options);
 
             fab.setOnClickListener(new View.OnClickListener() {
@@ -220,16 +233,27 @@ public class ListingDetailFragment extends Fragment implements LoaderManager.Loa
                 }
             });
 
+            //map things
+            title = propertyName.getText().toString().trim();
+            latlng = new LatLng(data.getDouble(data.getColumnIndex(CassiniContract.PropertyEntry.C_LATT)), data.getDouble(data.getColumnIndex(CassiniContract.PropertyEntry.C_LONG)));
+            if (map != null)
+                addMarkerOnMap();
+
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(-1.257662, 36.799800))
-                .title("Home"));
-        LatLng latlng = new LatLng(-1.257662, 36.799800);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
+        map = googleMap;
+        if (latlng != null)
+            addMarkerOnMap();
+    }
+
+    private void addMarkerOnMap() {
+        map.addMarker(new MarkerOptions()
+                .position(latlng)
+                .title(title));
+        map.animateCamera(CameraUpdateFactory.newLatLng(latlng));
     }
 }
 

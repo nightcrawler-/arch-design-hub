@@ -6,6 +6,7 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.images.ImagesServiceFactory;
+import com.singularity.archdesignhub.backend.MessagingEndpoint;
 import com.singularity.archdesignhub.backend.endpoints.ImageEndpoint;
 import com.singularity.archdesignhub.backend.entities.Image;
 
@@ -46,6 +47,8 @@ public class UploadBlob extends HttpServlet {
 
 
         }
+
+        new MessagingEndpoint().sendMessage("0");
 
         if (commaSepKeys.length() < 2) {
             res.setStatus(HttpServletResponse.SC_NO_CONTENT);

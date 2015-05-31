@@ -17,22 +17,20 @@
             android:id="@+id/imageViewGallery"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_margin="@dimen/ca_content_padding"
             android:src="@drawable/ic_image_camera_alt"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:layout_marginRight="8dp" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:gravity="center_vertical"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="16dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
             android:id="@+id/beds"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp">
 
             <ImageView
                 android:layout_width="30dp"
@@ -56,14 +54,12 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             android:layout_alignParentLeft="false"
-            android:layout_marginLeft="132dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
             android:id="@+id/showers"
             android:layout_toRightOf="@+id/beds"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp">
 
             <ImageView
                 android:layout_width="30dp"

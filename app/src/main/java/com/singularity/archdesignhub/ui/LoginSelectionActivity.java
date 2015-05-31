@@ -290,12 +290,13 @@ public class LoginSelectionActivity extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
-                try {
-                    user = loginManager.validateEmailLogin(params[0]);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//            } else {
+//                try {
+//                    user = loginManager.validateEmailLogin(params[0]);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
             }
 
             return user;

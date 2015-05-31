@@ -113,7 +113,7 @@ public class MessagesFragment extends Fragment implements LoaderManager.LoaderCa
             ViewHolder holder = new ViewHolder();
 
             if (convertView == null) {
-                convertView = inflater.inflate(R.layout.list_item_comment, null);
+                convertView = inflater.inflate(R.layout.list_item_msg, null);
                 convertView.setTag(holder);
                 holder.extra = (TextView) convertView.findViewById(R.id.textView22);
                 holder.content = (TextView) convertView.findViewById(R.id.textView23);

@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,9 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
             CassiniContract.ImageEntry.C_URL,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID,
             CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_NAME,
+            CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_TIME,
             CassiniContract.PropertyEntry.C_LOCATION,
+            CassiniContract.PropertyEntry.C_INTENT,
             CassiniContract.PropertyEntry.C_VALUE,
             CassiniContract.PropertyEntry.C_INTENT,
             CassiniContract.PropertyEntry.C_TEL,
@@ -142,9 +145,11 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
 
     public static class ListingAdapter extends BaseAdapter {
         private Cursor cursor;
-        LayoutInflater inflater;
+        private LayoutInflater inflater;
+        private Context context;
 
         public ListingAdapter(Context context) {
+            this.context = context;
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         }
@@ -180,6 +185,7 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
                 holder.intentLabel = (TextView) convertView.findViewById(R.id.textView16);
                 holder.beds = (TextView) convertView.findViewById(R.id.textView15);
                 holder.showers = (TextView) convertView.findViewById(R.id.textView8);
+                holder.time = (TextView) convertView.findViewById(R.id.textView37);
 
                 Utils.applyFonts(convertView, App.getRobotoSlabLight());
 
@@ -203,9 +209,12 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
             holder.value.setText("KES. " + NumberFormat.getInstance().format(cursor.getInt(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_VALUE))));
             holder.beds.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BEDROOMS)));
             holder.showers.setText(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_BATHROOMS)));
+            holder.time.setText(DateUtils.getRelativeDateTimeString(context, cursor.getLong(3), (1 * 60 * 60 * 1000), (3 * 60 * 60 * 1000), DateUtils.FORMAT_ABBREV_RELATIVE));
 
             DefaultImageLoader.getInstance().loadImage(cursor.getString(cursor.getColumnIndex(CassiniContract.ImageEntry.C_URL)), holder.imageView);
 
+            if(cursor.getString(cursor.getColumnIndex(CassiniContract.PropertyEntry.C_INTENT)).equals("Sale"))
+                holder.intentLabel.setVisibility(View.GONE);
 
             return convertView;
         }
@@ -218,7 +227,7 @@ public class ListingsFragment extends Fragment implements android.support.v4.app
 
         private class ViewHolder {
             ImageView imageView;
-            TextView title, location, tel, value, intentLabel, showers, beds;
+            TextView title, location, tel, value, intentLabel, showers, beds, time;
             View bottomPadding;
         }
 

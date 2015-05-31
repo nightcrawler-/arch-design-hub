@@ -164,12 +164,14 @@
             message.time = new Date().getTime();
             $scope.loading = true;
             gapi.client.messageApi.insert(message).execute(function (resp) {
+                console.log(resp);
                 if (!resp.code) {
                     //success
                     //sends gcm message to notify clients to download the new message
                     $scope.sendGcmMessage(1);
                     $scope.loading = false;
-                    $scope.nav = 'home';
+                    $scope.nav = "home";
+                    $scope.$apply();
                 }
                 $scope.loading = false;
 
@@ -180,6 +182,7 @@
             var reqObject = {};
             reqObject.message = message;
             gapi.client.messaging.messagingEndpoint.sendMessage(reqObject).execute(function (resp) {
+                console.log(resp);
                 if (!resp.code) {
                     //success sent
                 }

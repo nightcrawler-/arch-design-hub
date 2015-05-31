@@ -129,7 +129,9 @@ public class CassiniProvider extends ContentProvider {
                 break;
             case PROPERTY:
                 retCursor = listingDetailsQueryBuilder.query(dbHelper.getReadableDatabase(), projection,
-                        CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + ContentUris.parseId(uri),
+                        CassiniContract.PropertyEntry.TABLE_NAME + "." + CassiniContract.PropertyEntry.C_ID + "=" + ContentUris.parseId(uri)
+                                + " AND " + CassiniContract.PropertyEntry.C_AGENT_ID + "="
+                                + CassiniContract.AgentEntry.TABLE_NAME + "." + CassiniContract.AgentEntry.C_ID,
                         selectionArgs, CassiniContract.ImageEntry.C_URL, null, sortOrder);
                 break;
             case IMAGES_OWNER:

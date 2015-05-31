@@ -513,7 +513,7 @@
                                             <form name="formListing" class="form form-validate" novalidate="novalidate">
                                                 <div class="form-group">
                                                     <input ng-model="listing.name" type="text" class="form-control" id="regular1" required>
-                                                    <label for="regular1">Name</label>
+                                                    <label for="regular1">Title</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <input ng-model="listing.value" type="text" class="form-control" id="password1" required>
@@ -527,6 +527,14 @@
                                                     <input ng-model="listing.location" type="text" class="form-control" id="help1" required>
                                                     <label for="help1">Location</label>
                                                     <p class="help-block">Use a street address</p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="listing.latt" type="text" class="form-control" id="lattitude" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="Can be retrieved from an online map">
+                                                    <label for="lattitude">Lattitude</label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input ng-model="listing.longi" type="text" class="form-control" id="longitude" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="Can be retrieved from an online map">
+                                                    <label for="longitude">Longitude</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <input ng-model="listing.website" type="text" class="form-control" id="tooltip1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="Website, will use agent't if unavailable">
@@ -550,8 +558,8 @@
                                                     <label for="textarea1">Description</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input ng-model="listing.area" type="text" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The area in square meters covered by the property">
-                                                    <label for="password1">Area</label>
+                                                    <input ng-model="listing.area" type="text" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="In square meters">
+                                                    <label for="password1">Living Area</label>
                                                 </div>
                                                 <div class="form-group">
                                                     <input ng-model="listing.bedrooms" type="text" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The number of bedrooms available on the property">
@@ -562,8 +570,8 @@
                                                     <label for="password1">Bathrooms</label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input ng-model="listing.volume" type="text" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The space provided bt the property in cubic meters">
-                                                    <label for="password1">Volume</label>
+                                                    <input ng-model="listing.volume" type="text" class="form-control" id="password1" data-toggle="tooltip" data-placement="bottom" data-trigger="hover" data-original-title="The land area occupied by the property in square meters">
+                                                    <label for="password1">Land Area</label>
                                                 </div>
                                                 <div class=row>
                                                     <div class="cassini-padding  col-lg-offset-3 col-md-3">

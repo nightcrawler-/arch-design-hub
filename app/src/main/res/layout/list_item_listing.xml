@@ -87,7 +87,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/ca_content_padding">
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -96,68 +97,102 @@
             android:layout_centerVertical="true"
             android:padding="6dp" >
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="2dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="The Alibi"
-                    android:id="@+id/textView10"
-                    android:textColor="@color/ca_detail_title"
-                    android:layout_marginRight="6dp"
-                    android:gravity="center_vertical" />
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="center_vertical" >
+                    android:id="@+id/relativeLayout" >
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical|right"
-                        android:layout_weight="0"
                         android:layout_alignParentRight="true"
+                        android:layout_weight="0"
                         android:background="@color/ca_background_minor"
                         android:elevation="2dp"
-                        android:paddingLeft="8dp"
+                        android:gravity="center_vertical|right"
+                        android:orientation="horizontal"
+                        android:paddingBottom="6dp"
                         android:paddingRight="8dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp" >
+                        android:paddingTop="6dp"
+                        android:layout_alignParentTop="false"
+                        android:id="@+id/linearLayout3"
+                        android:paddingLeft="8dp"
+                        android:layout_centerVertical="true" >
 
                         <TextView
+                            android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ksh. 65,000"
-                            android:id="@+id/textView11"
-                            android:textColor="@color/ca_detail_sub_title"
                             android:layout_alignParentRight="false"
-                            android:layout_toLeftOf="@+id/textView16"
                             android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/textView36"
+                            android:text="Ksh. 65,000"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/ca_detail_sub_title"
                             android:textSize="@dimen/ca_size_val" />
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/textView14"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="bottom"
+                            android:text="/mo"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textColor="@color/ca_title_white_faded"
+                            android:textSize="@dimen/ca_small" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="false"
+                        android:layout_weight="0"
+                        android:gravity="center_vertical|right"
+                        android:orientation="horizontal"
+                        android:paddingBottom="6dp"
+                        android:paddingTop="6dp"
+                        android:layout_alignParentTop="false"
+                        android:id="@+id/linearLayout4"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true" >
+
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:id="@+id/imageView31"
+                            android:src="@drawable/ic_device_access_time_gray" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:text="/mo"
-                            android:id="@+id/textView16"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignBottom="@+id/textView11"
-                            android:textColor="@color/ca_title_white_faded"
-                            android:layout_gravity="bottom"
+                            android:text="2h"
+                            android:id="@+id/textView37"
                             android:textSize="@dimen/ca_small" />
                     </LinearLayout>
                 </RelativeLayout>
-            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="The Alibi now try and make it a ridculously long title to see if the weights and sizes play along, the number of characters that can eb accomodate"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/ca_detail_title"
+                    android:layout_weight="0"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_marginTop="6dp" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

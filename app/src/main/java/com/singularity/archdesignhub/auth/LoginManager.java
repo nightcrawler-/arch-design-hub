@@ -83,6 +83,7 @@ public class LoginManager extends BackboneBase {
 
     }
 
+    @Deprecated
     public User validateEmailLogin(User user) throws IOException {
         User savedUser = Backbone.getInstance().getUser(user);
         if (savedUser == null)
