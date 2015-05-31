@@ -32,7 +32,6 @@ dependencies {
     //compile 'com.kbeanie:image-chooser-library:1.4.3@aar'
     compile project(':fadingActionBar')
     compile project(':circularimageview')
-
     compile project(path: ':backend', configuration: 'android-endpoints')
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile 'com.android.support:support-v4:22.1.1'
