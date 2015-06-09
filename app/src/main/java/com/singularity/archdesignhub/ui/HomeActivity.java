@@ -87,7 +87,7 @@ public class HomeActivity extends ActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_archdesignhub, null));
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_solid_archdesignhub));
         setContentView(R.layout.activity_home);
 
 
