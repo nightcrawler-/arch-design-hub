@@ -1,5 +1,6 @@
 package com.singularity.archdesignhub.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,6 +32,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     private FloatingActionButton call, emailPicture;
     private ImageView image;
     private ObservableScrollView scrollView;
+    private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static int CONTACTS_LOADER = 123;
     private static String[] CONTACTS_COLUMNS = {
@@ -44,9 +46,13 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     public ContactsFragment() {
     }
+    public static Fragment newInstance(int sectionNumber) {
+        ContactsFragment fragment = new ContactsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
 
-    public static Fragment newInstance() {
-        return new ContactsFragment();
     }
 
     @Nullable
@@ -76,7 +82,12 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
         getLoaderManager().initLoader(CONTACTS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((HomeActivity) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(getActivity(), CassiniContract.ContactEntry.CONTENT_URI, CONTACTS_COLUMNS, null, null, null);

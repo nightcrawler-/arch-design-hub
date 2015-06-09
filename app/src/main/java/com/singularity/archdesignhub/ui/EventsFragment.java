@@ -1,5 +1,6 @@
 package com.singularity.archdesignhub.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -29,9 +30,16 @@ import com.singularity.archdesignhub.utils.Utils;
  */
 public class EventsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private EventsAdapter adapter;
+    private static final String ARG_SECTION_NUMBER = "section_number";
 
-    public static Fragment newInstance() {
-        return new EventsFragment();
+
+    public static Fragment newInstance(int sectionNumber) {
+        EventsFragment fragment = new EventsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+
     }
 
     public EventsFragment() {
@@ -65,7 +73,12 @@ public class EventsFragment extends Fragment implements LoaderManager.LoaderCall
         getLoaderManager().initLoader(EVENTS_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((HomeActivity) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri uri = CassiniContract.EventEntry.CONTENT_URI;

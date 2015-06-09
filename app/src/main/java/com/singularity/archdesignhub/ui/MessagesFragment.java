@@ -1,5 +1,6 @@
 package com.singularity.archdesignhub.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class MessagesFragment extends Fragment implements LoaderManager.LoaderCa
             CassiniContract.MessageEntry.C_TIME,
             CassiniContract.MessageEntry.C_EXTRA
     };
+    private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static int MSG_LOADER;
     private ListView listView;
@@ -39,10 +41,15 @@ public class MessagesFragment extends Fragment implements LoaderManager.LoaderCa
 
     public MessagesFragment() {
     }
+    public static Fragment newInstance(int sectionNumber) {
+        MessagesFragment fragment = new MessagesFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
 
-    public static Fragment newInstance() {
-        return new MessagesFragment();
     }
+
 
     @Nullable
     @Override
@@ -61,7 +68,12 @@ public class MessagesFragment extends Fragment implements LoaderManager.LoaderCa
         super.onActivityCreated(savedInstanceState);
 
     }
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((HomeActivity) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(getActivity(), CassiniContract.MessageEntry.CONTENT_URI, MESSAGES_COLUMNS, null, null, "time DESC");

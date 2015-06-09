@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -49,6 +50,9 @@ public class LoginSelectionActivity extends Activity {
     private static final int EMAIL_LOGIN = 3;
     private static int loginType = -1;
 
+    private ProgressBar progressBar;
+    private View holder;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,8 @@ public class LoginSelectionActivity extends Activity {
         gplusLogin = findViewById(R.id.gplusLogin);
         emailLogin = findViewById(R.id.emailLogin);
         noLogin = findViewById(R.id.textView20);
+        holder = findViewById(R.id.holder);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
 
         setUpFbLogin();
         mGoogleApiClient = buildGoogleApiClient();
@@ -123,7 +129,7 @@ public class LoginSelectionActivity extends Activity {
 
     public void loginDone() {
         Utils.setLoginDone(this, true);
-       // startActivity(new Intent(this, HomeActivity.class));
+        // startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
 
@@ -275,6 +281,8 @@ public class LoginSelectionActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
+            holder.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
             super.onPreExecute();
         }
 
@@ -305,7 +313,11 @@ public class LoginSelectionActivity extends Activity {
         @Override
         protected void onPostExecute(User user) {
             super.onPostExecute(user);
+            holder.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             loginDone();
+
+
         }
     }
 

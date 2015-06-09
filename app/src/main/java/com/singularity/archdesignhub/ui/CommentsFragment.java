@@ -1,5 +1,6 @@
 package com.singularity.archdesignhub.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -40,6 +41,7 @@ public class CommentsFragment extends Fragment implements LoaderManager.LoaderCa
             CassiniContract.CommentEntry.C_OWNER_NAME,
             CassiniContract.CommentEntry.C_OWNER_PIC,
     };
+    private static final String ARG_SECTION_NUMBER = "section_number";
 
     private static int COMMENTS_LOADER = 123;
     CommentsAdapter adapter;
@@ -47,8 +49,13 @@ public class CommentsFragment extends Fragment implements LoaderManager.LoaderCa
     public CommentsFragment() {
     }
 
-    public static CommentsFragment newInstance() {
-        return new CommentsFragment();
+    public static Fragment newInstance(int sectionNumber) {
+        CommentsFragment fragment = new CommentsFragment();
+        Bundle args = new Bundle();
+        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        fragment.setArguments(args);
+        return fragment;
+
     }
 
 
@@ -85,10 +92,18 @@ public class CommentsFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((HomeActivity) activity).onSectionAttached(
+                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri uri = CassiniContract.CommentEntry.CONTENT_URI;
-        return new CursorLoader(getActivity(), uri, COMMENTS_COLUMNS, null, null, null);
+        return new CursorLoader(getActivity(), uri, COMMENTS_COLUMNS, null, null, CassiniContract.CommentEntry.C_TIME + " DESC");
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {

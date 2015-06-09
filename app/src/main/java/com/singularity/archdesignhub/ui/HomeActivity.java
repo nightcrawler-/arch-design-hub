@@ -13,13 +13,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.singularity.archdesignhub.R;
-import com.singularity.archdesignhub.data.SyncIntentService;
 import com.singularity.archdesignhub.utils.Utils;
 
 
@@ -120,16 +117,16 @@ public class HomeActivity extends ActionBarActivity
                 current = AgentsFragment.newInstance(position);
                 break;
             case 2:
-                current = EventsFragment.newInstance();
+                current = EventsFragment.newInstance(position);
                 break;
             case 3:
-                current = CommentsFragment.newInstance();
+                current = CommentsFragment.newInstance(position);
                 break;
             case 4:
-                current = MessagesFragment.newInstance();
+                current = MessagesFragment.newInstance(position);
                 break;
             case 5:
-                current = ContactsFragment.newInstance();
+                current = ContactsFragment.newInstance(position);
                 break;
             default:
                 current = new BlankFragment();
@@ -144,20 +141,23 @@ public class HomeActivity extends ActionBarActivity
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
+            case 0:
                 mTitle = getString(R.string.title_section1);
                 break;
-            case 2:
+            case 1:
                 mTitle = getString(R.string.title_section2);
                 break;
-            case 3:
+            case 2:
                 mTitle = getString(R.string.title_section3);
                 break;
-            case 4:
+            case 3:
                 mTitle = getString(R.string.title_section4);
                 break;
-            case 5:
+            case 4:
                 mTitle = getString(R.string.title_section5);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_section6);
                 break;
         }
         getSupportActionBar().setTitle(mTitle);
